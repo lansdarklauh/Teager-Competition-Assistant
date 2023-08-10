@@ -1,0 +1,32 @@
+.nav{
+    height: 64px;
+    background: #08979C;
+    text-align: center;
+    .nav-content{
+        display: inline-block;
+        width: 100%;
+        max-width: 1200px;
+        height: 100%;
+        .router-box{
+            list-style: none;
+            display: flex;
+            margin:0;
+            padding: 0;
+            height: 100%;
+            .router-button{
+                padding:0 16px;
+                font-size: 32px;
+                color:#ffffff;
+                text-align: center;
+                line-height: 64px;
+                cursor: pointer;
+                .router-name{
+                    margin-left: 8px;
+                }
+                &:hover, &.select{
+                    background-color: #5CDBD3;
+                }
+            }
+        }
+    }
+}
