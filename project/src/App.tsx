@@ -1,14 +1,24 @@
 import Nav from './components/nav'
-import Content from "./components/content";
+import Home from "@/components/home";
+import SelectMap from "@/components/selectMap/index.tsx";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.less'
 
 function App() {
 
+  //使用导航使用路由控制模块与流程
   return (
-    <div className='background'>
-      <Nav />
-      <Content />
-    </div>
+    <BrowserRouter>
+      <div className='background'>
+        <Nav />
+        <div className='content-main'>
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/selectMap' element={<SelectMap />}></Route>
+          </Routes>
+        </div>
+      </div>
+    </BrowserRouter>
   )
 }
 
