@@ -1,22 +1,23 @@
 import { MapItem } from "@/interfaces";
+import { LIB_OPTION } from "../const";
 
 type MapLibAction = {
     type: string | null
     data: MapItem[]
 }
 
-//对地图池进行操作
+//对地图库进行操作
 export function mapLibReducer(preState: MapItem[] = [], action: MapLibAction) {
     if (!action) return preState
     const { type, data } = action
     switch (type) {
-        case 'replace':
+        case LIB_OPTION.REPLACE:
             return data
-        case 'add':
+        case LIB_OPTION.ADD:
             return preState ? preState.concat(data) : data
-        case 'clear':
+        case LIB_OPTION.CLEAR:
             return []
         default:
-            return data
+            return []
     }
 }

@@ -12,5 +12,43 @@
         opacity: 0.5;
         z-index:1;
     }
+    .button-box{
+        position: absolute;
+        left: 50%;
+        bottom: 8rem;
+        transform: translate(-50%);
+        .button-confirm{
+            background-color: #36CFC9;
+            margin-left: 8rem;
+        }
+    }
 
 }
+
+.main{
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    .title {
+        margin:6rem 0 3rem;
+        font-size: 8rem;
+        color: #36CFC9;
+    }
+    .drag{
+        display: inline-block;
+        width: 40%;
+        height: 30%;
+        z-index:10;
+    }
+    .select{
+        width: 30rem;
+    }
+    .transfer{
+        display: flex;
+        justify-content: center;
+        margin-top: 7rem;
+    }
+}
+

@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd'
-import '@/style/selectMap/import.less'
+import '@/style/selectMap/map.less'
 import { Select } from 'antd';
 import popkart_all from "/popkart_all.json?url";
 import axios from "axios";
 import { MapListItem, MapItem } from '@/interfaces'
+import { useDispatch } from "react-redux";
+import { replaceLibAction } from "@/redux/selectMap/mapLib/mapLibAction";
 
-const Import: React.FC = () => {
+const ImportMapLib: React.FC = forwardRef((props, ref) => {
+    // 组件内参数与state
     const { Dragger } = Upload;
     const [mapList, setMapList] = useState<MapListItem[]>([{
         value: 'bbbbbb',
@@ -16,7 +21,12 @@ const Import: React.FC = () => {
     }])
     const [mapLib, setMapLib] = useState<MapItem[]>([])
 
-    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const dispatch = useDispatch<any>()
+
+    const replaceLib = () => {
+        dispatch(replaceLibAction(mapLib))
+    }
+
     //这里需要用any类型，因为antd没有暴露options的接口
     const handleUpload = (options: any) => {
         const { onSuccess, file } = options
@@ -32,7 +42,7 @@ const Import: React.FC = () => {
                         type: '竞速',
                         theme: '未知'
                     }
-                }))
+                }).filter(obj => obj.name !== ''))
             }
         }
         reader.onerror = (err) => {
@@ -42,12 +52,12 @@ const Import: React.FC = () => {
     }
 
     //使用customRequest跳过请求
-    const props: UploadProps = {
+    const uploadProps: UploadProps = {
         name: 'file',
         action: '',
         multiple: false,
         maxCount: 1,
-        className: 'import-drag',
+        className: 'drag',
         customRequest: handleUpload,
         onChange(info) {
             const { status } = info.file;
@@ -75,17 +85,29 @@ const Import: React.FC = () => {
         setMapList(() => obj)
     }
 
+    const confirmLib = () => {
+        replaceLib()
+    }
+
+    const nextStep = () => {
+        confirmLib()
+    }
+
+    useImperativeHandle(ref, () => ({
+        nextStep
+    }))
+
     useEffect(() => {
         getDefaultMap(popkart_all)
     }, [])
     //导入模块
     return (
         <>
-            <div className='import-main'>
-                <h1 className="import-title">
+            <div className='main'>
+                <h1 className="title">
                     导入地图库
                 </h1>
-                <Dragger {...props}>
+                <Dragger {...uploadProps}>
                     <p className="ant-upload-drag-icon">
                         <InboxOutlined />
                     </p>
@@ -94,11 +116,11 @@ const Import: React.FC = () => {
                         只允许上传TXT格式文件，文件中放入所有地图名称，用逗号或回车隔开
                     </p>
                 </Dragger>
-                <h1 className="import-title">
+                <h1 className="title">
                     或选择地图库
                 </h1>
                 <Select
-                    className="import-select"
+                    className="select"
                     onChange={handleChange}
                     options={mapList}
                 />
@@ -106,5 +128,6 @@ const Import: React.FC = () => {
             </div>
         </>
     )
-}
-export default Import
+})
+
+export default ImportMapLib
