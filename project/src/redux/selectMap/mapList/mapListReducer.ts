@@ -18,6 +18,6 @@ export function mapListReducer(preState: MapItem[] = [], action: MapListAction) 
         case LIST_OPTION.CLEAR:
             return []
         default:
-            return []
+            return preState.concat([])
     }
 }

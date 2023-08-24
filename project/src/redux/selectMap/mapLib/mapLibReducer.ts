@@ -18,6 +18,6 @@ export function mapLibReducer(preState: MapItem[] = [], action: MapLibAction) {
         case LIB_OPTION.CLEAR:
             return []
         default:
-            return []
+            return preState.concat([])
     }
 }

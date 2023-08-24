@@ -11,6 +11,7 @@ import axios from "axios";
 import { MapListItem, MapItem } from '@/interfaces'
 import { useDispatch } from "react-redux";
 import { replaceLibAction } from "@/redux/selectMap/mapLib/mapLibAction";
+import { nanoid } from 'nanoid'
 
 const ImportMapLib: React.FC = forwardRef((props, ref) => {
     // 组件内参数与state
@@ -22,6 +23,12 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
     const [mapLib, setMapLib] = useState<MapItem[]>([])
 
     const dispatch = useDispatch<any>()
+
+    // const Reset = (cb?: () => void) => {
+    //     getDefaultMap(popkart_all)
+    //     setMapLib([])
+    //     cb && cb()
+    // }
 
     const replaceLib = () => {
         dispatch(replaceLibAction(mapLib))
@@ -40,7 +47,8 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
                         name: item,
                         difficulty: 0,
                         type: '竞速',
-                        theme: '未知'
+                        theme: '未知',
+                        code: nanoid()
                     }
                 }).filter(obj => obj.name !== ''))
             }
@@ -89,12 +97,21 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
         replaceLib()
     }
 
-    const nextStep = () => {
+    const nextStep = (cb?: () => void) => {
         confirmLib()
+        cb && cb()
+    }
+
+    const stepOption = (cb?: () => void, method: number = 1) => {
+        if (method === 1) {
+            nextStep(cb)
+        } else {
+            // Reset(cb)
+        }
     }
 
     useImperativeHandle(ref, () => ({
-        nextStep
+        stepOption: stepOption
     }))
 
     useEffect(() => {
