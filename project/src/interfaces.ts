@@ -1,4 +1,5 @@
 import React from "react";
+import type { Color } from "antd/es/color-picker";
 export interface NavRouter {
     name: string,
     router: React.FC,
@@ -21,7 +22,8 @@ export interface MapListItem {
 // 计分相关：选手
 export interface Player {
     name: string,
-    score: number[]
+    score: number[],
+    color: Color
 }
 
 export interface refMethod {

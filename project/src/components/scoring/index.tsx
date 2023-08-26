@@ -7,12 +7,14 @@ import { Provider } from "react-redux";
 import store from "@/redux/scoring/store"
 import '@/style/scoring/scoring.less'
 import Diving from "@/components/scoring/diving";
+// import Player from "@/components/scoring/player";
+// import Statistic from "@/components/scoring/scoring";
 import { refMethod } from "@/interfaces";
 
 const SelectMap: React.FC = () => {
     const divingRef = useRef<refMethod>(null)
-    const selectRef = useRef<refMethod>(null)
-    const chooseRef = useRef<refMethod>(null)
+    const playerRef = useRef<refMethod>(null)
+    const statisticRef = useRef<refMethod>(null)
     const [step, setStep] = useState(1)
     const history = useNavigate()
     //点击上一步的动作
@@ -37,17 +39,17 @@ const SelectMap: React.FC = () => {
     function nextStep(step: number) {
         switch (step) {
             case 1:
-                importRef!.current!.stepOption(() => {
+                divingRef!.current!.stepOption(() => {
                     setStep(step + 1)
                 })
                 break;
             case 2:
-                selectRef!.current!.stepOption(() => {
+                playerRef!.current!.stepOption(() => {
                     setStep(step + 1)
                 })
                 break;
             case 3:
-                chooseRef!.current!.stepOption()
+                statisticRef!.current!.stepOption()
                 break;
             default:
                 break;
@@ -62,10 +64,10 @@ const SelectMap: React.FC = () => {
                     switch (step) {
                         case 1:
                             return <Diving ref={divingRef} />
-                        case 2:
-                            return <SelectMapList ref={selectRef} />
-                        case 3:
-                            return <ChooseMap ref={chooseRef} />
+                        // case 2:
+                        //     return <Player ref={playerRef} />
+                        // case 3:
+                        //     return <Statistic ref={statisticRef} />
                         default:
                             return null;
                     }
