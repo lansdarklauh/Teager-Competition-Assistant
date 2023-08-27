@@ -2,7 +2,7 @@ import Nav from './components/nav'
 import Home from "@/components/home";
 import SelectMap from "@/components/selectMap/index.tsx";
 import Scoring from "@/components/scoring/index";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import store from "@/redux/scoring/store"
@@ -15,7 +15,7 @@ function App() {
 
   //使用导航使用路由控制模块与流程
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className='background'>
         <Nav ref={navRef} />
         <div className='content-main'>
@@ -31,7 +31,7 @@ function App() {
           </Provider>
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 
