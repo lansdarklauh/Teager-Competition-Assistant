@@ -1,12 +1,11 @@
-import { useState } from 'react'
+import { useState, useImperativeHandle, forwardRef } from 'react'
 import { NavRouter } from '@/interfaces'
-import React from "react";
-import { PictureOutlined, CalendarOutlined, CarOutlined, TeamOutlined } from '@ant-design/icons';
+import { PictureOutlined, CalendarOutlined } from '@ant-design/icons';
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo_mini_white.png";
 import '@/style/nav.less'
 
-const Nav: React.FC = () => {
+const Nav = forwardRef((props, ref) => {
     // 路由跳转表，以后可添加或隐藏部分内容
     const [router] = useState<NavRouter[]>(
         [
@@ -20,16 +19,16 @@ const Nav: React.FC = () => {
                 router: () => <CalendarOutlined />,
                 link: '/scoring'
             },
-            {
-                name: '选车',
-                router: () => <CarOutlined />,
-                link: '/selectCar'
-            },
-            {
-                name: '分队',
-                router: () => <TeamOutlined />,
-                link: '/divingTeam'
-            },
+            // {
+            //     name: '选车',
+            //     router: () => <CarOutlined />,
+            //     link: '/selectCar'
+            // },
+            // {
+            //     name: '分队',
+            //     router: () => <TeamOutlined />,
+            //     link: '/divingTeam'
+            // },
         ]
     )
     //当前路由
@@ -39,6 +38,10 @@ const Nav: React.FC = () => {
     const changeModel = (link: string) => {
         setCurrentModel(link)
     }
+
+    useImperativeHandle(ref, () => ({
+        changeModel
+    }))
 
     return (
         //导航模块
@@ -64,5 +67,5 @@ const Nav: React.FC = () => {
             </div>
         </>
     )
-}
+})
 export default Nav

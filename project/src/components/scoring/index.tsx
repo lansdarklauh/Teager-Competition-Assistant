@@ -8,19 +8,23 @@ import store from "@/redux/scoring/store"
 import '@/style/scoring/scoring.less'
 import Diving from "@/components/scoring/diving";
 // import Player from "@/components/scoring/player";
-// import Statistic from "@/components/scoring/scoring";
+import Statistic from "@/components/scoring/statistic";
 import { refMethod } from "@/interfaces";
+import EnterPlayer from "./enterPlayer";
 
-const SelectMap: React.FC = () => {
+const Scoring: React.FC = () => {
     const divingRef = useRef<refMethod>(null)
     const playerRef = useRef<refMethod>(null)
     const statisticRef = useRef<refMethod>(null)
     const [step, setStep] = useState(1)
     const history = useNavigate()
+
     //点击上一步的动作
     function lastStep(step: number) {
         if (step === 1) {
             history('/')
+            localStorage.removeItem('Teager_Rank')
+            location.reload()
         } else {
             const temp = step - 1
             setStep(temp)
@@ -64,10 +68,10 @@ const SelectMap: React.FC = () => {
                     switch (step) {
                         case 1:
                             return <Diving ref={divingRef} />
-                        // case 2:
-                        //     return <Player ref={playerRef} />
-                        // case 3:
-                        //     return <Statistic ref={statisticRef} />
+                        case 2:
+                            return <EnterPlayer ref={playerRef} />
+                        case 3:
+                            return <Statistic ref={statisticRef} />
                         default:
                             return null;
                     }
@@ -81,4 +85,4 @@ const SelectMap: React.FC = () => {
         </Provider>
     )
 }
-export default SelectMap
+export default Scoring

@@ -23,7 +23,14 @@ export interface MapListItem {
 export interface Player {
     name: string,
     score: number[],
-    color: Color
+    color: Color | string,
+    code: string
+}
+
+// 带有ref的接口
+export interface refComponent {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ref: any
 }
 
 export interface refMethod {

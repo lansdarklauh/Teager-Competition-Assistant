@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Confused from "@/assets/confused.png";
 import ImportMapLib from "@/components/selectMap/importMapLib";
 import { Button } from "antd";
@@ -16,11 +16,13 @@ const SelectMap: React.FC = () => {
     const selectRef = useRef<refMethod>(null)
     const chooseRef = useRef<refMethod>(null)
     const [step, setStep] = useState(1)
+
     const history = useNavigate()
     //点击上一步的动作
     function lastStep(step: number) {
         if (step === 1) {
             history('/')
+            location.reload()
         } else {
             const temp = step - 1
             setStep(temp)
@@ -55,6 +57,8 @@ const SelectMap: React.FC = () => {
                 break;
         }
     }
+
+    useEffect(() => { }, [])
 
     //选图模块
     return (

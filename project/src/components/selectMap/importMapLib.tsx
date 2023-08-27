@@ -5,10 +5,10 @@ import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd'
 import '@/style/selectMap/map.less'
-import { Select } from 'antd';
-import popkart_all from "/popkart_all.json?url";
-import axios from "axios";
-import { MapListItem, MapItem } from '@/interfaces'
+// import { Select } from 'antd';
+// import popkart_all from "/popkart_all.json?url";
+// import axios from "axios";
+import { MapItem } from '@/interfaces'
 import { useDispatch } from "react-redux";
 import { replaceLibAction } from "@/redux/selectMap/mapLib/mapLibAction";
 import { nanoid } from 'nanoid'
@@ -16,10 +16,10 @@ import { nanoid } from 'nanoid'
 const ImportMapLib: React.FC = forwardRef((props, ref) => {
     // 组件内参数与state
     const { Dragger } = Upload;
-    const [mapList, setMapList] = useState<MapListItem[]>([{
-        value: 'bbbbbb',
-        label: 'aaaaaa'
-    }])
+    // const [mapList, setMapList] = useState<MapListItem[]>([{
+    //     value: 'bbbbbb',
+    //     label: 'aaaaaa'
+    // }])
     const [mapLib, setMapLib] = useState<MapItem[]>([])
 
     const dispatch = useDispatch<any>()
@@ -80,18 +80,18 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
         },
     };
 
-    const handleChange = (value: string) => {
-        setMapLib(JSON.parse(value))
-    };
+    // const handleChange = (value: string) => {
+    //     setMapLib(JSON.parse(value))
+    // };
 
-    const getDefaultMap = async (url: string) => {
-        const res = await axios.get(url)
-        const obj = [{
-            value: JSON.stringify(res.data),
-            label: popkart_all.slice(1)
-        }]
-        setMapList(() => obj)
-    }
+    // const getDefaultMap = async (url: string) => {
+    //     const res = await axios.get(url)
+    //     const obj = [{
+    //         value: JSON.stringify(res.data),
+    //         label: popkart_all.slice(1)
+    //     }]
+    //     setMapList(() => obj)
+    // }
 
     const confirmLib = () => {
         replaceLib()
@@ -115,7 +115,7 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
     }))
 
     useEffect(() => {
-        getDefaultMap(popkart_all)
+        // getDefaultMap(popkart_all)
     }, [])
     //导入模块
     return (
@@ -133,14 +133,14 @@ const ImportMapLib: React.FC = forwardRef((props, ref) => {
                         只允许上传TXT格式文件，文件中放入所有地图名称，用逗号或回车隔开
                     </p>
                 </Dragger>
-                <h1 className="title">
+                {/* <h1 className="title">
                     或选择地图库
                 </h1>
                 <Select
                     className="select"
                     onChange={handleChange}
                     options={mapList}
-                />
+                /> */}
 
             </div>
         </>

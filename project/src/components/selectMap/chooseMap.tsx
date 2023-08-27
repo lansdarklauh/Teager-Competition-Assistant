@@ -25,6 +25,7 @@ const ChooseMap: React.FC = forwardRef((props, ref) => {
 
     // 筛选出单张地图
     const chooseMapItem = () => {
+        if (unSelectedList.length === 0) return
         const tempList = unSelectedList.map(item => item)
         const tempList2 = selectedList.map(item => item)
         const tempMap = tempList.splice(Math.floor(Math.random() * tempList.length), 1)[0]
@@ -76,7 +77,7 @@ const ChooseMap: React.FC = forwardRef((props, ref) => {
                     <Button className="button" onClick={chooseMapItem}>录入</Button>
                     <Button className="button button-show" type="primary" onClick={allChoose}>一键筛选</Button>
                 </div>
-                <TextArea className="choose_list" value={
+                <TextArea className="choose_list" disabled={true} value={
                     selectedList.map(item => item.name).join('，')
                 } />
             </div>
