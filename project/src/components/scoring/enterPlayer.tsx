@@ -79,7 +79,12 @@ const EnterPlayer = forwardRef((_props, ref) => {
                 </h1>
                 <div className="diving_option">
                     <Input size="large" className="diving-num" defaultValue={player} onChange={inputChanged} />
-                    <ColorPicker className="button" value={color} onChange={setColor} />
+                    <ColorPicker className="button" value={color} onChange={setColor} presets={[{
+                        label: '预设颜色',
+                        colors: [
+                            'yellow', 'black', 'red', 'DarkViolet', 'gray', 'green', 'DodgerBlue', 'DeepPink', 'orange', 'Cyan'
+                        ]
+                    }]} />
                     <Button className="button button-generate" type="primary" onClick={chooseMapItem}>录入</Button>
                     <Button className="button" onClick={reset}>重置</Button>
                 </div>
