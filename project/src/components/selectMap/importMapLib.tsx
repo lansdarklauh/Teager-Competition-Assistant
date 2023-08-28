@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd'
@@ -13,7 +13,7 @@ import { useDispatch } from "react-redux";
 import { replaceLibAction } from "@/redux/selectMap/mapLib/mapLibAction";
 import { nanoid } from 'nanoid'
 
-const ImportMapLib: React.FC = forwardRef((props, ref) => {
+const ImportMapLib = forwardRef((_props, ref) => {
     // 组件内参数与state
     const { Dragger } = Upload;
     // const [mapList, setMapList] = useState<MapListItem[]>([{

@@ -4,8 +4,6 @@ import SelectMap from "@/components/selectMap/index.tsx";
 import Scoring from "@/components/scoring/index";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { useRef } from "react";
-import { Provider } from "react-redux";
-import store from "@/redux/scoring/store"
 import './App.less'
 import ShowRank from './components/scoring/showRank';
 
@@ -18,17 +16,17 @@ function App() {
     <HashRouter>
       <div className='background'>
         <Nav ref={navRef} />
-        <div className='content-main'>
+        <div className='content-main' style={{ display: location.hash !== '#/showRank' ? 'block' : 'none' }}>
           <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='/selectMap' element={<SelectMap />}></Route>
             <Route path='/scoring' element={<Scoring />}></Route>
           </Routes>
-          <Provider store={store}>
-            <Routes>
-              <Route path='/showRank' element={<ShowRank />} />
-            </Routes>
-          </Provider>
+        </div>
+        <div className='rank_win' style={{ display: location.hash === '#/showRank' ? 'block' : 'none' }}>
+          <Routes>
+            <Route path='/showRank' element={<ShowRank />} />
+          </Routes>
         </div>
       </div>
     </HashRouter>

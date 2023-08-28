@@ -5,7 +5,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/logo_mini_white.png";
 import '@/style/nav.less'
 
-const Nav = forwardRef((props, ref) => {
+const Nav = forwardRef((_props, ref) => {
     // 路由跳转表，以后可添加或隐藏部分内容
     const [router] = useState<NavRouter[]>(
         [

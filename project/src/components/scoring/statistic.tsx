@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { Player } from '@/interfaces'
 import { useSelector } from "react-redux";
-import { Table, Button, Modal, Select, Tag } from 'antd';
+import { Table, Button, Modal, Select, Tag, Tooltip } from 'antd';
+import {
+    OrderedListOutlined
+} from '@ant-design/icons';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
 const { Column } = Table;
 const { Option } = Select;
 
-const Statistic: React.FC = forwardRef((props, ref) => {
+const Statistic = forwardRef((_props, ref) => {
 
     // 组件内参数与state
     const [players, setPlayers] = useState<Player[]>(useSelector((state: { players: Player[] }) => state.players))
@@ -28,6 +31,7 @@ const Statistic: React.FC = forwardRef((props, ref) => {
         if (method === 1) {
             addNewRank()
         }
+        cb && cb()
     }
 
     // 储存数据到localStorage
@@ -80,7 +84,7 @@ const Statistic: React.FC = forwardRef((props, ref) => {
         setPlayers(newScoring)
         setSelectedPlayers([])
         setOpen(false)
-        refresh(!fresh)
+        // refresh(!fresh)
     }
 
     // 取消此次排名
@@ -100,6 +104,11 @@ const Statistic: React.FC = forwardRef((props, ref) => {
         return total
     }
 
+    // 显示排名窗口方便捕获
+    const showRankHandle = () => {
+        window.open(location.origin + '/#/showRank', "_blank", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=800, height=400")
+    }
+
 
     useEffect(() => {
         // reset()
@@ -108,13 +117,16 @@ const Statistic: React.FC = forwardRef((props, ref) => {
             temp[item.name] = getTotal(item.score) + '-' + item.color
         })
         storeLocal('Teager_Rank', JSON.stringify(temp))
-    }, [fresh])
+    }, [players, fresh])
     //导入模块
     return (
         <>
             <div className='main'>
                 <h1 className="title">
                     选手计分排名
+                    <Tooltip title="排名窗口">
+                        <Button className="rank_list" type="link" icon={<OrderedListOutlined />} onClick={showRankHandle} />
+                    </Tooltip>
                 </h1>
                 <div className="enter_num">
                     <Table rowKey="code" dataSource={players} pagination={false} scroll={{ y: 240 }} >

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/scoring/scoring.less'
 import { useDispatch } from "react-redux";
 import { InputNumber, Button } from 'antd';
 import RankLi from "./rankLi";
 import { replaceRankAction } from "@/redux/scoring/mapLib/scoringAction";
 
-const Diving: React.FC = forwardRef((props, ref) => {
+const Diving = forwardRef((_props, ref) => {
 
     // 阶段数
     const [stage, setStage] = useState(8)

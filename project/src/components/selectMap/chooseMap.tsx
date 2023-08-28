@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { MapItem } from '@/interfaces'
 import { useSelector } from "react-redux";
 import { Input, Button } from 'antd';
 import TextArea from "antd/es/input/TextArea";
 
-const ChooseMap: React.FC = forwardRef((props, ref) => {
+const ChooseMap = forwardRef((_props, ref) => {
 
     // 组件内参数与state
     // 先获取地图库

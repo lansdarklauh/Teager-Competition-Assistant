@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { MapItem } from '@/interfaces'
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import { Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
 import { nanoid } from 'nanoid'
 
-const SelectMapList: React.FC = forwardRef((props, ref) => {
+const SelectMapList = forwardRef((_props, ref) => {
 
     interface RecordType {
         key: string;

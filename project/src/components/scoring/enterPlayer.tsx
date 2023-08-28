@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-refresh/only-export-components */
-import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { Player } from '@/interfaces'
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,7 @@ import type { Color } from 'antd/es/color-picker';
 import { replacePlayerAction } from "@/redux/scoring/mapLib/scoringAction";
 import { nanoid } from "nanoid";
 
-const EnterPlayer: React.FC = forwardRef((props, ref) => {
+const EnterPlayer = forwardRef((_props, ref) => {
 
     // 组件内参数与state
     const [players, setPlayers] = useState<Player[]>(useSelector((state: { players: Player[] }) => state.players))

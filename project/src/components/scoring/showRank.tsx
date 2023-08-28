@@ -18,7 +18,18 @@ const ShowRank: React.FC = () => {
             })
             delete tempList[key]
         })
-        tempArr.sort((a, b) => a.value - b.value)
+        tempArr.sort((a, b) => {
+            const A = a.value.split('-')[0]
+            const B = b.value.split('-')[0]
+            if ((!Number(B) && Number(A)) || (Number(A) > Number(B))) {
+                return -1
+            }
+            else if ((Number(B) && !Number(A)) || (Number(A) < Number(B))) {
+                return 1
+            } else {
+                return 0
+            }
+        })
         tempArr.forEach((item) => {
             tempList[item.key] = item.value
         })
@@ -42,7 +53,7 @@ const ShowRank: React.FC = () => {
                             (text) => {
                                 const temp = text.split('-')
                                 return (
-                                    <span style={{ color: temp[1] }}>{temp[0]}</span>
+                                    <span style={{ color: temp[1], fontSize: '20px', fontWeight: 600 }}>{temp[0]}</span>
                                 )
                             }
                         } />
