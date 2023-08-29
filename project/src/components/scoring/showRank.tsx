@@ -36,24 +36,30 @@ const ShowRank: React.FC = () => {
         return tempList
     }
 
-    const [list] = useState(sortRank())
+    const [list, setList] = useState(sortRank())
+    const [fresh, refresh] = useState(false)
+
+    const update = () => {
+        setList(sortRank())
+        refresh(!fresh)
+    }
 
 
     useEffect(() => {
 
-    }, [])
+    }, [fresh])
 
     //列表项模块
     return (
         <>
-            <Table pagination={false} dataSource={[list]}>
+            <Table pagination={false} dataSource={[list]} rowKey={Object.keys(list)[0] || ''}>
                 {
                     Object.keys(list).map(key => {
                         return <Column key={key} title={key} dataIndex={key} render={
                             (text) => {
                                 const temp = text.split('-')
                                 return (
-                                    <span style={{ color: temp[1], fontSize: '20px', fontWeight: 600 }}>{temp[0]}</span>
+                                    <span onClick={update} style={{ color: temp[1], fontSize: '20px', fontWeight: 600 }}>{temp[0]}</span>
                                 )
                             }
                         } />

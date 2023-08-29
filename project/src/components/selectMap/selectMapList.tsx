@@ -55,7 +55,7 @@ const SelectMapList = forwardRef((_props, ref) => {
     }
 
     const filterOption = (inputValue: string, option: RecordType) =>
-        option.description.indexOf(inputValue) > -1;
+        option.title.indexOf(inputValue) > -1;
 
     const handleChange = (newTargetKeys: string[]) => {
         setTargetKeys(newTargetKeys);
