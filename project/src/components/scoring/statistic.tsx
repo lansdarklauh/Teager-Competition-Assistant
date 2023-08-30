@@ -6,7 +6,8 @@ import { Player } from '@/interfaces'
 import { useSelector } from "react-redux";
 import { Table, Button, Modal, Select, Tag, Tooltip } from 'antd';
 import {
-    OrderedListOutlined
+    OrderedListOutlined,
+    RedoOutlined
 } from '@ant-design/icons';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
@@ -110,12 +111,20 @@ const Statistic = forwardRef((_props, ref) => {
         window.open(location.pathname + '#/showRank', "_blank", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=800, height=400")
     }
 
+    // 重置分数
+    const refreshScore = () => {
+        setPlayers(players.map(item => {
+            item.score = []
+            return item
+        }))
+    }
+
 
     useEffect(() => {
         // reset()
         const temp: any = {}
         players.forEach(item => {
-            temp[item.name] = getTotal(item.score) + '-' + item.color
+            temp[item.name] = getTotal(item.score) + '?' + item.color
         })
         storeLocal('Teager_Rank', JSON.stringify(temp))
     }, [players, fresh])
@@ -127,6 +136,9 @@ const Statistic = forwardRef((_props, ref) => {
                     选手计分排名
                     <Tooltip title="排名窗口">
                         <Button className="rank_list" type="link" icon={<OrderedListOutlined />} onClick={showRankHandle} />
+                    </Tooltip>
+                    <Tooltip title="归零">
+                        <Button className="rank_list" type="link" icon={<RedoOutlined />} onClick={refreshScore} />
                     </Tooltip>
                 </h1>
                 <div className="enter_num">
