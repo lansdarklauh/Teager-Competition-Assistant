@@ -7,6 +7,8 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
+        icon: "dist/logo_mini_ico.ico",
+        title: "Kartrider Tool -- LansDarkLauh",
         webPreferences: {
             preload: path.join(__dirname, 'preload.js')
         }

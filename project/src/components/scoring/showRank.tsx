@@ -19,8 +19,8 @@ const ShowRank: React.FC = () => {
             delete tempList[key]
         })
         tempArr.sort((a, b) => {
-            const A = a.value.split('-')[0]
-            const B = b.value.split('-')[0]
+            const A = a.value.split('?')[0]
+            const B = b.value.split('?')[0]
             if ((!Number(B) && Number(A)) || (Number(A) > Number(B))) {
                 return -1
             }
@@ -57,7 +57,7 @@ const ShowRank: React.FC = () => {
                     Object.keys(list).map(key => {
                         return <Column key={key} title={key} dataIndex={key} render={
                             (text) => {
-                                const temp = text.split('-')
+                                const temp = text.split('?')
                                 return (
                                     <span onClick={update} style={{ color: temp[1], fontSize: '20px', fontWeight: 600 }}>{temp[0]}</span>
                                 )

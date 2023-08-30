@@ -5,6 +5,10 @@
   "main": "main.js",
   "author": "LansDarkLauh",
   "description": "Used in Kartrider Champion（Personal/Common）",
+  "productName": "KartriderTool",
+  "win": {
+      "icon": "dist/logo_mini_ico.ico"
+    },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
