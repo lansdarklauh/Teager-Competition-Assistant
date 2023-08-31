@@ -79,7 +79,7 @@ const Statistic = forwardRef((_props, ref) => {
             if (num === -1) {
                 player.score.push(rank[0])
             } else {
-                player.score.push(rank[num + 1] || rank[0])
+                player.score.push((rank[num + 1] || rank[num + 1] === 0) ? rank[num + 1] : rank[0])
             }
         })
         setPlayers(newScoring)
