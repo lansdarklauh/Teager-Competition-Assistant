@@ -4,7 +4,7 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { Player } from '@/interfaces'
 import { useDispatch, useSelector } from "react-redux";
-import { Input, Button, ColorPicker } from 'antd';
+import { Input, Button, ColorPicker, Modal } from 'antd';
 import type { Color } from 'antd/es/color-picker';
 import { replacePlayerAction } from "@/redux/scoring/mapLib/scoringAction";
 import { nanoid } from "nanoid";
@@ -13,10 +13,20 @@ const EnterPlayer = forwardRef((_props, ref) => {
 
     // 组件内参数与state
     const [players, setPlayers] = useState<Player[]>(useSelector((state: { players: Player[] }) => state.players))
-    const [player, setPlayer] = useState<string>()
+    const [player, setPlayer] = useState<string>('')
 
     // 设置颜色
     const [color, setColor] = useState<Color | string>('#36CFC9');
+    const [open, setOpen] = useState(false)
+    const [reColor, setReColor] = useState<Color | string>('#36CFC9');
+    const [currentPlayer, setCurrentPlayer] = useState<Player>({
+        name: '',
+        score: [],
+        color: '',
+        code: ''
+    });
+    const [currentName, setCurrentName] = useState<string>()
+    const [fresh, refresh] = useState(false)
 
     // 获取redux的dispatch
     const dispatch = useDispatch<any>()
@@ -43,14 +53,14 @@ const EnterPlayer = forwardRef((_props, ref) => {
             code: nanoid()
         })
         setPlayers(tempList)
-        setPlayer('')
+        refresh(!fresh)
     }
 
     // 重置
     const reset = () => {
-        setPlayer('')
         setPlayers([])
         setColor('#36CFC9')
+        refresh(!fresh)
 
     }
 
@@ -66,10 +76,61 @@ const EnterPlayer = forwardRef((_props, ref) => {
         }
     }
 
+    const selectCurrentPlayer = (player: Player) => {
+        setReColor(player.color)
+        setCurrentPlayer(player)
+        setCurrentName(player.name)
+        setOpen(true)
+    }
+
+    const inputNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value) {
+            setCurrentName(e.target.value)
+        }
+    }
+
+    const cancelChange = () => {
+        setReColor('')
+        setCurrentPlayer({
+            name: '',
+            score: [],
+            color: '',
+            code: ''
+        })
+        setCurrentName('')
+        setOpen(false)
+    }
+
+    const confirmChange = () => {
+        const tempPlayer = {
+            name: currentName || currentPlayer.name,
+            score: currentPlayer.score,
+            color: reColor || currentPlayer.color,
+            code: currentPlayer.code
+        }
+        const tempList = players.map(item => {
+            if (item.code === tempPlayer.code) return tempPlayer
+            else return item
+        })
+        setPlayers(tempList)
+        setOpen(false)
+        refresh(!fresh)
+    }
+
+    const deletePlayer = () => {
+        const tempList: Player[] = []
+        players.forEach(item => {
+            if (item.code !== currentPlayer.code) tempList.push(item)
+        })
+        setPlayers(tempList)
+        setOpen(false)
+        refresh(!fresh)
+    }
+
 
     useEffect(() => {
         // reset()
-    }, [])
+    }, [fresh])
     //导入模块
     return (
         <>
@@ -92,13 +153,42 @@ const EnterPlayer = forwardRef((_props, ref) => {
                     {
                         players.map((item, index) => {
                             return (
-                                <span key={item.code} style={{ color: typeof item.color === 'string' ? item.color : item.color.toHexString() }}>
+                                <span key={item.code} style={{ color: typeof item.color === 'string' ? item.color : item.color.toHexString() }} onClick={() => { selectCurrentPlayer(item) }}>
                                     {item.name + (index === players.length - 1 ? '' : '，')}
                                 </span>
                             )
                         })
                     }
                 </div>
+                <Modal
+                    open={open}
+                    title="请修改选手名字"
+                    centered
+                    onCancel={cancelChange}
+                    footer={[
+                        <Button className='button button-delete' key="back" onClick={deletePlayer}>
+                            删除
+                        </Button>,
+                        <Button className='button' key="back" onClick={cancelChange}>
+                            取消
+                        </Button>,
+                        <Button className='button button-generate' key="submit" type="primary" onClick={confirmChange}>
+                            确定
+                        </Button>,
+                    ]}
+                    destroyOnClose={true}
+                    maskClosable={false}
+                >
+                    <div className="diving_option">
+                        <Input size="large" className="change-name" defaultValue={currentName} onChange={inputNameChange} />
+                        <ColorPicker className="button" defaultValue={reColor} onChange={setReColor} presets={[{
+                            label: '预设颜色',
+                            colors: [
+                                'yellow', 'black', 'red', 'DarkViolet', 'gray', 'green', 'DodgerBlue', 'DeepPink', 'orange', 'Cyan'
+                            ]
+                        }]} />
+                    </div>
+                </Modal>
             </div>
         </>
     )
