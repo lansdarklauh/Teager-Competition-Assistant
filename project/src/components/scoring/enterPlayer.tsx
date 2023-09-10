@@ -76,6 +76,7 @@ const EnterPlayer = forwardRef((_props, ref) => {
         }
     }
 
+    // 点击选手名称后弹出修改框
     const selectCurrentPlayer = (player: Player) => {
         setReColor(player.color)
         setCurrentPlayer(player)
@@ -101,6 +102,7 @@ const EnterPlayer = forwardRef((_props, ref) => {
         setOpen(false)
     }
 
+    // 确定后更新选手
     const confirmChange = () => {
         const tempPlayer = {
             name: currentName || currentPlayer.name,
@@ -117,6 +119,7 @@ const EnterPlayer = forwardRef((_props, ref) => {
         refresh(!fresh)
     }
 
+    // 删除当前选手
     const deletePlayer = () => {
         const tempList: Player[] = []
         players.forEach(item => {
