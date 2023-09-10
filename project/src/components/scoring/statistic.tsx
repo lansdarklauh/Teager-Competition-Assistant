@@ -4,10 +4,11 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { Player } from '@/interfaces'
 import { useSelector } from "react-redux";
-import { Table, Button, Modal, Select, Tag, Tooltip } from 'antd';
+import { Table, Button, Modal, Select, Tag, Tooltip, Popconfirm, Input } from 'antd';
 import {
     OrderedListOutlined,
-    RedoOutlined
+    RedoOutlined,
+    ArrowLeftOutlined
 } from '@ant-design/icons';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
@@ -22,6 +23,16 @@ const Statistic = forwardRef((_props, ref) => {
     const [fresh, refresh] = useState(false)
     const [selectedPlayers, setSelectedPlayers] = useState<string[]>([])
     const [open, setOpen] = useState(false)
+
+    // 修改分数
+    const [selectPlayer, setSelectedPlayer] = useState<Player>({
+        name: '',
+        score: [],
+        color: '',
+        code: ''
+    })
+    const [openChange, setOpenChange] = useState(false)
+    const [currentScore, setCurrentScore] = useState<number[]>([])
 
 
     useImperativeHandle(ref, () => ({
@@ -119,6 +130,52 @@ const Statistic = forwardRef((_props, ref) => {
         }))
     }
 
+    // 撤销上一局分数
+    const undoLastMatch = () => {
+        const tempList = players.map(item => {
+            const obj = {
+                ...item
+            }
+            if (obj.score.length > 0) {
+                obj.score.splice(obj.score.length - 1)
+            }
+            return obj
+        })
+        setPlayers(tempList)
+        refresh(!fresh)
+    }
+
+    // 分数按逗号隔开后转为数字储存
+    const inputScoreChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.value) {
+            const tempArr = e.target.value.split(/[,，]/)
+            setCurrentScore(tempArr.map(item => {
+                return Number(item) || 0
+            }))
+        }
+    }
+
+    const cancelChange = () => {
+        setOpenChange(false)
+        refresh(!fresh)
+    }
+
+    const confirmChange = () => {
+        const tempPlayer: Player = {
+            name: selectPlayer.name || '',
+            score: currentScore.length ? currentScore : selectPlayer.score,
+            color: selectPlayer.color,
+            code: selectPlayer.code
+        }
+        const tempPlayers = players.map(item => {
+            if (tempPlayer.code === item.code) return tempPlayer
+            else return item
+        })
+        setPlayers(tempPlayers)
+        setOpenChange(false)
+        refresh(!fresh)
+    }
+
 
     useEffect(() => {
         // reset()
@@ -137,9 +194,30 @@ const Statistic = forwardRef((_props, ref) => {
                     <Tooltip title="排名窗口">
                         <Button className="rank_list" type="link" icon={<OrderedListOutlined />} onClick={showRankHandle} />
                     </Tooltip>
-                    <Tooltip title="归零">
-                        <Button className="rank_list" type="link" icon={<RedoOutlined />} onClick={refreshScore} />
-                    </Tooltip>
+                    <Popconfirm
+                        title="分数归零"
+                        description="确定撤销上一局的比赛结果吗？"
+                        onConfirm={undoLastMatch}
+                        onCancel={() => { }}
+                        okText="确定"
+                        cancelText="取消"
+                    >
+                        <Tooltip title="撤销上一局">
+                            <Button className="rank_list" type="link" icon={<ArrowLeftOutlined />} />
+                        </Tooltip>
+                    </Popconfirm>
+                    <Popconfirm
+                        title="分数归零"
+                        description="确定将所有选手的分数清零吗？"
+                        onConfirm={refreshScore}
+                        onCancel={() => { }}
+                        okText="确定"
+                        cancelText="取消"
+                    >
+                        <Tooltip title="归零">
+                            <Button className="rank_list" type="link" icon={<RedoOutlined />} />
+                        </Tooltip>
+                    </Popconfirm>
                 </h1>
                 <div className="enter_num">
                     <Table rowKey="code" dataSource={players} pagination={false} scroll={{ y: 240 }} >
@@ -151,9 +229,25 @@ const Statistic = forwardRef((_props, ref) => {
                         <Column title="具体分数" dataIndex="score" key="score" render={
                             (score: number[]) => {
                                 if (score.length === 0) return 0
-                                return score.join('+')
+                                return (
+                                    <span style={{ cursor: "pointer" }}>
+                                        {score.join('+')}
+                                    </span>
+                                )
                             }
-                        } />
+                        }
+                            onCell={
+                                (record: Player | undefined) => {
+                                    return {
+                                        onClick: () => {
+                                            if (!record) return
+                                            setSelectedPlayer(record)
+                                            if (record.score) setCurrentScore(record.score)
+                                            setOpenChange(true)
+                                        }
+                                    }
+                                }
+                            } />
                         <Column title="总分" dataIndex="score" key="score" render={
                             (score: number[]) => {
                                 const total = getTotal(score)
@@ -203,6 +297,25 @@ const Statistic = forwardRef((_props, ref) => {
                             })
                         }
                     </Select>
+                </Modal>
+                <Modal
+                    open={openChange}
+                    title="请修改选手具体场次分数，用逗号隔开"
+                    centered
+                    onOk={confirmChange}
+                    onCancel={cancelChange}
+                    footer={[
+                        <Button className='button' key="back" onClick={cancelChange}>
+                            取消
+                        </Button>,
+                        <Button className='button button-generate' key="submit" type="primary" onClick={confirmChange}>
+                            确定
+                        </Button>,
+                    ]}
+                    destroyOnClose={true}
+                    maskClosable={false}
+                >
+                    <Input size="large" className="diving-num" defaultValue={currentScore.join(',')} onChange={inputScoreChanged} />
                 </Modal>
             </div>
         </>
