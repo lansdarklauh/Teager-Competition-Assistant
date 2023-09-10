@@ -6,9 +6,9 @@
 
 ## 作者：蓝色大老虎
 
-Github空间：<https://github.com/lansdarklauh>
-b站空间：<https://space.bilibili.com/3221223>
-b站直播间：<https://live.bilibili.com/6953239>
+Github空间：<https://github.com/lansdarklauh><br />
+b站空间：<https://space.bilibili.com/3221223><br />
+b站直播间：<https://live.bilibili.com/6953239><br />
 邮箱：<lansdarklauh@foxmail.com>
 
 ## 模块介绍
