@@ -3,24 +3,28 @@ import Home from "@/components/home";
 import SelectMap from "@/components/selectMap/index.tsx";
 import Scoring from "@/components/scoring/index";
 import { HashRouter, Routes, Route } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import './App.less'
 import ShowRank from './components/scoring/showRank';
 import * as PIXI from 'pixi.js';
 import {
   Live2DModel
 } from 'pixi-live2d-display/cubism4';
+import { CSSTransition } from 'react-transition-group'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const window: any;
 
 function App() {
   // 将 PIXI 暴露到 window 上，这样插件就可以通过 window.PIXI.Ticker 来自动更新模型
   window.PIXI = PIXI;
 
   const live2dLoad = async function () {
+    if (!document.getElementById('canvas')) return
     const app = new PIXI.Application({
-      view: document.getElementById('canvas'),
+      view: document.getElementById('canvas') as HTMLCanvasElement,
       transparent: true,
       autoDensity: true,
-      autoResize: true,
       antialias: true,
       autoStart: true,
       // 高度
@@ -33,9 +37,13 @@ function App() {
 
     const canvasElement = document.getElementById('canvas')
 
-    canvasElement.addEventListener('pointermove', (event) => model.focus(event.clientX, event.clientY));
+    if (canvasElement) document.addEventListener('pointermove', (event) => {
+      model.focus(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
+    });
 
-    canvasElement.addEventListener('pointerdown', (event) => model.tap(event.clientX, event.clientY));
+    if (canvasElement) canvasElement.addEventListener('pointerdown', (event) => {
+      model.tap(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
+    });
 
     app.stage.addChild(model);
 
@@ -52,14 +60,21 @@ function App() {
     // model.registerInteraction()
 
     // 交互
-    model.on('hit', (hitAreas) => {
-      if (hitAreas.includes('body')) {
-        model.motion('Huishou');
-      }
-    });
+    // model.on('hit', (hitAreas) => {
+    //   console.log('aaa')
+    // });
+
   };
 
+
   const navRef = useRef(null)
+
+  const [live2D, setLive2D] = useState(false)
+
+  const changeShowLive2D = () => {
+    const flag = live2D ? false : true
+    setLive2D(flag)
+  }
 
   useEffect(() => {
     live2dLoad()
@@ -72,7 +87,7 @@ function App() {
         <Nav ref={navRef} />
         <div className='content-main' style={{ display: location.hash !== '#/showRank' ? 'block' : 'none' }}>
           <Routes>
-            <Route path='/' element={<Home />}></Route>
+            <Route path='/' element={<Home changeShowLive2D={changeShowLive2D} />}></Route>
             <Route path='/selectMap' element={<SelectMap />}></Route>
             <Route path='/scoring' element={<Scoring />}></Route>
           </Routes>
@@ -82,10 +97,11 @@ function App() {
             <Route path='/showRank' element={<ShowRank />} />
           </Routes>
         </div>
-        {/* <canvas ref={canvasRef}></canvas> */}
-        <canvas id='canvas' style={{ position: 'absolute', bottom: 0, right: 0 }}></canvas>
+        <CSSTransition in={live2D} timeout={1000} classNames='fade' apper={true}>
+          <canvas id='canvas' className='live2d' style={{ visibility: live2D && (location.hash !== '#/showRank') ? 'visible' : 'hidden' }}></canvas>
+        </CSSTransition>
       </div>
-    </HashRouter>
+    </HashRouter >
   )
 }
 
