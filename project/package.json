@@ -12,6 +12,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
     "antd": "^5.8.2",
+    "pixi-live2d-display": "^0.4.0",
+    "pixi.js": "^6.5.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",

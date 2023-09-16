@@ -1,0 +1,548 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamEyeLSmile",
+			"GroupId": "ParamGroup2",
+			"Name": "左眼　微笑"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup2",
+			"Name": "左眼　开闭"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "ParamGroup2",
+			"Name": "右眼　微笑"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "ParamGroup2",
+			"Name": "右眼  开闭"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "ParamGroup2",
+			"Name": "眼球 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "ParamGroup2",
+			"Name": "眼球 Y"
+		},
+		{
+			"Id": "Param5",
+			"GroupId": "ParamGroup2",
+			"Name": "眼睛高光y"
+		},
+		{
+			"Id": "Param3",
+			"GroupId": "ParamGroup2",
+			"Name": "眼睛高光x"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup3",
+			"Name": "右眉　上下"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "ParamGroup3",
+			"Name": "右眉　角度"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "ParamGroup3",
+			"Name": "右眉　変形"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup3",
+			"Name": "左眉  上下"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "ParamGroup3",
+			"Name": "左眉　角度"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"GroupId": "ParamGroup3",
+			"Name": "左眉　変形"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "ParamGroup5",
+			"Name": "嘴部　变形"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "ParamGroup5",
+			"Name": "嘴巴　张开和闭合"
+		},
+		{
+			"Id": "LH",
+			"GroupId": "ParamGroup6",
+			"Name": "脸红"
+		},
+		{
+			"Id": "TX",
+			"GroupId": "ParamGroup6",
+			"Name": "桃心眼"
+		},
+		{
+			"Id": "XX",
+			"GroupId": "ParamGroup6",
+			"Name": "星星眼"
+		},
+		{
+			"Id": "SW1",
+			"GroupId": "ParamGroup6",
+			"Name": "丝袜2"
+		},
+		{
+			"Id": "WT",
+			"GroupId": "ParamGroup6",
+			"Name": "外套切换"
+		},
+		{
+			"Id": "SW2",
+			"GroupId": "ParamGroup6",
+			"Name": "切换丝袜"
+		},
+		{
+			"Id": "LH2",
+			"GroupId": "ParamGroup6",
+			"Name": "脸黑"
+		},
+		{
+			"Id": "BZ",
+			"GroupId": "ParamGroup6",
+			"Name": "板子隐藏"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "ParamGroup7",
+			"Name": "摇动　前发"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "ParamGroup7",
+			"Name": "摇动　侧发"
+		},
+		{
+			"Id": "ParamHairBack",
+			"GroupId": "ParamGroup7",
+			"Name": "摇动　后发"
+		},
+		{
+			"Id": "maoMR",
+			"GroupId": "ParamGroup7",
+			"Name": "猫耳x"
+		},
+		{
+			"Id": "Maoer",
+			"GroupId": "ParamGroup7",
+			"Name": "xx"
+		},
+		{
+			"Id": "biaoqing1",
+			"GroupId": "ParamGroup7",
+			"Name": "圆眼"
+		},
+		{
+			"Id": "biaoqing2",
+			"GroupId": "ParamGroup7",
+			"Name": "表情2"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "ParamGroup4",
+			"Name": "身体旋转　X"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "ParamGroup4",
+			"Name": "身体旋转　Z"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "ParamGroup4",
+			"Name": "身体旋转　Y"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "Param6",
+			"GroupId": "",
+			"Name": "吊坠"
+		},
+		{
+			"Id": "Param_Angle_Rotation28",
+			"GroupId": "ParamGroup8",
+			"Name": "[0]回转"
+		},
+		{
+			"Id": "Param_Angle_Rotation29",
+			"GroupId": "ParamGroup8",
+			"Name": "[1]回转"
+		},
+		{
+			"Id": "Param_Angle_Rotation30",
+			"GroupId": "ParamGroup8",
+			"Name": "[2]回转"
+		},
+		{
+			"Id": "Param_Angle_Rotation31",
+			"GroupId": "ParamGroup8",
+			"Name": "[3]回转"
+		},
+		{
+			"Id": "Param_Angle_Rotation32",
+			"GroupId": "ParamGroup8",
+			"Name": "[4]回转"
+		},
+		{
+			"Id": "Param_Angle_Rotation33",
+			"GroupId": "ParamGroup8",
+			"Name": "[5]回转"
+		},
+		{
+			"Id": "Param7",
+			"GroupId": "",
+			"Name": "尾巴三段"
+		},
+		{
+			"Id": "weiba",
+			"GroupId": "",
+			"Name": "尾巴"
+		},
+		{
+			"Id": "Huishou",
+			"GroupId": "",
+			"Name": "挥手"
+		},
+		{
+			"Id": "yundong",
+			"GroupId": "",
+			"Name": "桃心眼运动"
+		},
+		{
+			"Id": "qiehuan",
+			"GroupId": "",
+			"Name": "手臂切换"
+		},
+		{
+			"Id": "ParamCheek",
+			"GroupId": "",
+			"Name": "脸颊"
+		},
+		{
+			"Id": "ParamBrowLX",
+			"GroupId": "",
+			"Name": "左眉　左右"
+		},
+		{
+			"Id": "ParamBrowRX",
+			"GroupId": "",
+			"Name": "右眉　左右"
+		},
+		{
+			"Id": "Param2",
+			"GroupId": "",
+			"Name": "胸部y"
+		},
+		{
+			"Id": "Param",
+			"GroupId": "",
+			"Name": "胸部X"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[0]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[1]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[2]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[3]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[4]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[5]ｴ�ﾃｫ"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_ArtMesh24",
+			"GroupId": "ParamGroup13",
+			"Name": "[6]ｴ�ﾃｫ"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "眼睛"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "眉毛"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "口型"
+		},
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "特殊表情"
+		},
+		{
+			"Id": "ParamGroup7",
+			"GroupId": "",
+			"Name": "头发飘动"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "头部九轴"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "身体九轴"
+		},
+		{
+			"Id": "ParamGroup8",
+			"GroupId": "",
+			"Name": "回转"
+		},
+		{
+			"Id": "ParamGroup13",
+			"GroupId": "",
+			"Name": "ｴ�ﾃｫ"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "Part53",
+			"Name": "蓝色大老虎.psd(未找到对应图层)"
+		},
+		{
+			"Id": "Part47",
+			"Name": "蓝色大老虎.psd(未找到对应图层)"
+		},
+		{
+			"Id": "Part35",
+			"Name": "蓝色大老虎.psd(未找到对应图层)"
+		},
+		{
+			"Id": "Part4",
+			"Name": "ﾎ�ｼ�"
+		},
+		{
+			"Id": "Part5",
+			"Name": "ｱﾇﾗﾓ"
+		},
+		{
+			"Id": "Part6",
+			"Name": "ﾗ�"
+		},
+		{
+			"Id": "Part7",
+			"Name": "ﾉ�ﾌ袒�ｸﾉ"
+		},
+		{
+			"Id": "Part11",
+			"Name": "ﾇｰｷ｢"
+		},
+		{
+			"Id": "Part12",
+			"Name": "ﾑﾛｾｦ"
+		},
+		{
+			"Id": "Part15",
+			"Name": "ﾁｳ"
+		},
+		{
+			"Id": "Part16",
+			"Name": "ｶ�ｶ�"
+		},
+		{
+			"Id": "ArtMesh48_Skinning",
+			"Name": "ｺ�ｷ｢(蒙皮)"
+		},
+		{
+			"Id": "Part20",
+			"Name": "ｺ�ｷ｢(回转)"
+		},
+		{
+			"Id": "Part17",
+			"Name": "ﾎｲｰﾍ"
+		},
+		{
+			"Id": "Part34",
+			"Name": "ﾎ�ｼ�"
+		},
+		{
+			"Id": "Part27",
+			"Name": "ﾎ�ｼ�"
+		},
+		{
+			"Id": "Part36",
+			"Name": "ﾉ�ﾌ袒�ｸﾉ"
+		},
+		{
+			"Id": "Part29",
+			"Name": "ﾑﾛｾｦ"
+		},
+		{
+			"Id": "Part8",
+			"Name": "ﾗ�ﾍﾈ"
+		},
+		{
+			"Id": "Part9",
+			"Name": "ﾓﾒﾍﾈ"
+		},
+		{
+			"Id": "Part10",
+			"Name": "ﾗ�ﾊﾖ"
+		},
+		{
+			"Id": "Part",
+			"Name": "ｱ�ﾇ�"
+		},
+		{
+			"Id": "Part13",
+			"Name": "ﾗ�ﾑﾛｾｦ"
+		},
+		{
+			"Id": "Part14",
+			"Name": "ﾓﾒﾑﾛｾｦ"
+		},
+		{
+			"Id": "ArtMesh26_Skinning",
+			"Name": "ﾓﾒｲ犢｢(蒙皮)"
+		},
+		{
+			"Id": "Part19",
+			"Name": "ﾓﾒｲ犢｢(回转)"
+		},
+		{
+			"Id": "ArtMesh27_Skinning",
+			"Name": "ﾗ�ｲ犢｢(蒙皮)"
+		},
+		{
+			"Id": "Part18",
+			"Name": "ﾗ�ｲ犢｢(回转)"
+		},
+		{
+			"Id": "ArtMesh24_Skinning",
+			"Name": "ｴ�ﾃｫ(蒙皮)"
+		},
+		{
+			"Id": "Part23",
+			"Name": "ｴ�ﾃｫ(回转)"
+		},
+		{
+			"Id": "ArtMesh46_Skinning",
+			"Name": "ﾗ�ｶ�ｶ�(蒙皮)"
+		},
+		{
+			"Id": "Part21",
+			"Name": "ﾗ�ｶ�ｶ�(回转)"
+		},
+		{
+			"Id": "ArtMesh3_Skinning",
+			"Name": "ﾎﾀﾒﾂﾉ�ﾗﾓﾗ�(蒙皮)"
+		},
+		{
+			"Id": "ArtMesh4_Skinning",
+			"Name": "ﾎﾀﾒﾂﾉ�ﾗﾓﾓﾒ(蒙皮)"
+		},
+		{
+			"Id": "ArtMesh92_Skinning",
+			"Name": "ﾎﾀﾒﾂﾉ�ﾗ�ﾒ�ﾓｰ ｸｱｱｾ(蒙皮)"
+		},
+		{
+			"Id": "ArtMesh93_Skinning",
+			"Name": "ﾎﾀﾒﾂﾉ�ﾓﾒﾒ�ﾓｰ ｸｱｱｾ(蒙皮)"
+		},
+		{
+			"Id": "ArtMesh47_Skinning",
+			"Name": "ﾓﾒｶ�ｶ�(蒙皮)"
+		},
+		{
+			"Id": "Part22",
+			"Name": "ﾓﾒｶ�ｶ�(回转)"
+		},
+		{
+			"Id": "ArtMesh49_Skinning",
+			"Name": "ﾎｲｰﾍﾕ�ｳ｣(蒙皮)"
+		},
+		{
+			"Id": "Part37",
+			"Name": "ﾎ�ｼ� ｸｱｱｾ"
+		},
+		{
+			"Id": "Part28",
+			"Name": "ﾎ�ｼ� ｸｱｱｾ"
+		},
+		{
+			"Id": "Part32",
+			"Name": "ﾉ�ﾌ袒�ｸﾉ ｸｱｱｾ"
+		},
+		{
+			"Id": "Part30",
+			"Name": "ﾗ�ﾑﾛｾｦ"
+		},
+		{
+			"Id": "Part31",
+			"Name": "ﾓﾒﾑﾛｾｦ"
+		},
+		{
+			"Id": "Part2",
+			"Name": "ｱ�ﾇ�0v0"
+		},
+		{
+			"Id": "Part3",
+			"Name": "ｱ�ﾇ�\u003Ev\u003C"
+		}
+	]
+}
