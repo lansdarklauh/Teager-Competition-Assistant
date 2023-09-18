@@ -41,8 +41,50 @@ function App() {
       model.focus(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
     });
 
-    if (canvasElement) canvasElement.addEventListener('pointerdown', (event) => {
-      model.tap(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
+    // if (canvasElement) canvasElement.addEventListener('pointerdown', (event) => {
+    //   model.tap(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
+    // });
+
+    let clickNum = 0
+    let clickControl = false
+
+    if (canvasElement) canvasElement.addEventListener('pointerup', () => {
+      console.log('aaa')
+      if (clickControl) return
+      clickControl = true
+      const message = document.createElement('span')
+      switch (clickNum) {
+        case 0:
+          message.textContent = "别点了，啥都没有……";
+          break;
+        case 1:
+          message.textContent = "真别点了，我懒得做……";
+          break;
+        case 2:
+          message.textContent = "过分了啊！";
+          break;
+        case 3:
+          message.textContent = "淦！再见！";
+          break
+        case 4:
+          message.textContent = "……不理你了，哼😒！";
+          break
+        default:
+          return ""
+      }
+      message.style.cssText = `position:absolute;left:${canvasElement.offsetLeft}px;top:${canvasElement.offsetTop}px;font-size:25px;font-weight:600;color:#ffffff;-webkit-text-stroke:1px #08979C;z-index:15;user-select:none;`
+      if (canvasElement.parentElement) canvasElement.parentElement.appendChild(message)
+      if (clickNum === 3)
+        setTimeout(() => {
+          if (canvasElement.parentElement) canvasElement.parentElement.removeChild(message)
+          canvasElement.style.visibility = 'hidden'
+          setLive2D(false)
+        }, 2000)
+      setTimeout(() => {
+        if (canvasElement.parentElement && clickNum !== 3) canvasElement.parentElement.removeChild(message)
+        if (clickNum <= 4) clickNum++
+        clickControl = false
+      }, 5000)
     });
 
     app.stage.addChild(model);
@@ -97,7 +139,7 @@ function App() {
             <Route path='/showRank' element={<ShowRank />} />
           </Routes>
         </div>
-        <CSSTransition in={live2D} timeout={1000} classNames='fade' apper={true}>
+        <CSSTransition in={live2D} timeout={1000} classNames='fade' apper={'true'}>
           <canvas id='canvas' className='live2d' style={{ visibility: live2D && (location.hash !== '#/showRank') ? 'visible' : 'hidden' }}></canvas>
         </CSSTransition>
       </div>

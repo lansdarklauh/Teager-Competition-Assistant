@@ -5,13 +5,14 @@ import '@/style/selectMap/map.less'
 import { MapItem } from '@/interfaces'
 import { useDispatch, useSelector } from "react-redux";
 import { replaceListAction } from "@/redux/selectMap/mapList/mapListAction";
-import { Transfer } from 'antd';
+import { Transfer, Radio } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
 import { nanoid } from 'nanoid'
+import type { RadioChangeEvent } from 'antd';
 
 const SelectMapList = forwardRef((_props, ref) => {
 
-    interface RecordType {
+    interface RecordType extends MapItem {
         key: string;
         title: string;
         description: string;
@@ -24,9 +25,9 @@ const SelectMapList = forwardRef((_props, ref) => {
 
     const [mapLib] = useState<MapItem[]>(originList.map(item => item))
 
-    const [mockData] = useState<RecordType[]>(mapLib.map((item: MapItem) => {
+    const [mockData, setMockData] = useState<RecordType[]>(mapLib.map((item: MapItem) => {
         return {
-            ...mapLib,
+            ...item,
             key: String(item.code) || String(nanoid()),
             title: item.name || '',
             description: item.theme || '',
@@ -37,6 +38,11 @@ const SelectMapList = forwardRef((_props, ref) => {
     const dispatch = useDispatch<any>()
 
     const [targetKeys, setTargetKeys] = useState<string[]>([]);
+
+    // 分类选项
+    const [classify, setClassify] = useState<string>('')
+
+    const [fresh, refresh] = useState(false)
 
     const replaceList = () => {
         const list = targetKeys.map(key => {
@@ -84,6 +90,58 @@ const SelectMapList = forwardRef((_props, ref) => {
         }
     }
 
+    const changeClassify = (e: RadioChangeEvent) => {
+        setClassify(e.target.value);
+        let tempData = []
+        switch (e.target.value) {
+            case '':
+                setMockData(mapLib.map((item: MapItem) => {
+                    return {
+                        ...item,
+                        key: String(item.code) || String(nanoid()),
+                        title: item.name || '',
+                        description: item.theme || '',
+                        chosen: false
+                    }
+                }))
+                break;
+            case 'difficulty':
+                tempData = mockData.map(item => item)
+                tempData.sort((a: RecordType, b: RecordType) => {
+                    return (a.difficulty || 0) - (b.difficulty || 0)
+                })
+                setMockData(tempData)
+                break;
+            case 'type':
+                tempData = mockData.map(item => item)
+                tempData.sort((a: RecordType, b: RecordType) => {
+                    return String(a.type || '').localeCompare(String(b.type || ''))
+                })
+                setMockData(tempData)
+                break;
+            case 'theme':
+                tempData = mockData.map(item => item)
+                tempData.sort((a: RecordType, b: RecordType) => {
+                    return String(a.theme || '').localeCompare(String(b.theme || ''))
+                })
+                setMockData(tempData)
+                break
+            default:
+                setMockData(mapLib.map((item: MapItem) => {
+                    return {
+                        ...item,
+                        key: String(item.code) || String(nanoid()),
+                        title: item.name || '',
+                        description: item.theme || '',
+                        chosen: false
+                    }
+                }))
+                break;
+        }
+        refresh(!fresh)
+    }
+
+
     // const reset = (cb?: () => void) => {
     //     const temp = originList.map(item => item)
     //     setMapLib(temp)
@@ -106,7 +164,7 @@ const SelectMapList = forwardRef((_props, ref) => {
 
     useEffect(() => {
 
-    }, [])
+    }, [fresh])
     //导入模块
     return (
         <>
@@ -114,6 +172,12 @@ const SelectMapList = forwardRef((_props, ref) => {
                 <h1 className="title">
                     选择地图池
                 </h1>
+                <Radio.Group onChange={changeClassify} value={classify}>
+                    <Radio value={''}>无</Radio>
+                    <Radio value={'difficulty'}>难度</Radio>
+                    <Radio value={'theme'}>主题</Radio>
+                    <Radio value={'type'}>类型</Radio>
+                </Radio.Group>
                 <Transfer
                     className="transfer"
                     dataSource={mockData}
@@ -126,7 +190,20 @@ const SelectMapList = forwardRef((_props, ref) => {
                         width: 320,
                         height: 320,
                     }}
-                    render={(item) => item.title}
+                    render={(item) => {
+                        switch (classify) {
+                            case '':
+                                return item.name + ' | ' + item.type + ' | ' + item.difficulty + '星'
+                            case 'difficulty':
+                                return item.difficulty + '星' + ' | ' + item.name + ' | ' + item.type
+                            case 'theme':
+                                return item.name + ' | ' + item.type + ' | ' + item.difficulty + '星'
+                            case 'type':
+                                return item.type + ' | ' + item.name + ' | ' + item.difficulty + '星'
+                            default:
+                                return item.name + ' | ' + item.type + ' | ' + item.difficulty + '星'
+                        }
+                    }}
                 />
             </div>
         </>
