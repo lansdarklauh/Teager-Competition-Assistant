@@ -30,7 +30,7 @@ function App() {
       // 高度
       height: 300,
       // 宽度
-      width: 300
+      width: 400
     });
 
     const model = await Live2DModel.from('src/assets/live2D/laohu.model3.json');
@@ -38,7 +38,7 @@ function App() {
     const canvasElement = document.getElementById('canvas')
 
     if (canvasElement) document.addEventListener('pointermove', (event) => {
-      model.focus(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 110, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 200)
+      model.focus(model._bounds.maxX / 2 + (event.clientX - window.innerWidth) + 150, model._bounds.maxY / 2 + (event.clientY - window.innerHeight) + 180)
     });
 
     // if (canvasElement) canvasElement.addEventListener('pointerdown', (event) => {
@@ -49,7 +49,6 @@ function App() {
     let clickControl = false
 
     if (canvasElement) canvasElement.addEventListener('pointerup', () => {
-      console.log('aaa')
       if (clickControl) return
       clickControl = true
       const message = document.createElement('span')
@@ -89,12 +88,17 @@ function App() {
 
     app.stage.addChild(model);
 
+    model.on("pointerup", () => {
+      if (clickNum < 4 && clickNum != 2 && clickNum != 3) model.motion("TapBody")
+      if (clickNum === 3) model.motion("Bye")
+    });
+
     // 变换
-    model.x = -100;
-    model.y = 0;
+    model.x = -10;
+    model.y = -50;
     // model.rotation = Math.PI;
     // model.skew.x = Math.PI;
-    model.scale.set(0.1);
+    model.scale.set(0.12);
     // model.anchor.set(0.5, 0.5);
     // 添加模型状态管理器
     // model.internalModel = new InternalModel()
