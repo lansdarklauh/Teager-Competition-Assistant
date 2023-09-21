@@ -4,8 +4,13 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { MapItem } from '@/interfaces'
 import { useSelector } from "react-redux";
-import { Input, Button } from 'antd';
+import {
+    // Input,
+    Select, Button
+} from 'antd';
 import TextArea from "antd/es/input/TextArea";
+
+const { Option } = Select;
 
 const ChooseMap = forwardRef((_props, ref) => {
 
@@ -16,7 +21,10 @@ const ChooseMap = forwardRef((_props, ref) => {
     // 储存已选中的地图
     const [selectedList, setSelectedList] = useState<MapItem[]>([])
     // 现在选中的地图
-    const [currentMap, setCurrentMap] = useState<MapItem>({})
+    const [currentMap, setCurrentMap] = useState<string>('')
+    // 手动输入的地图
+    const [ManualMap, setManualMap] = useState<string>('')
+    const [fresh, refresh] = useState(false)
 
 
     useImperativeHandle(ref, () => ({
@@ -28,11 +36,22 @@ const ChooseMap = forwardRef((_props, ref) => {
         if (unSelectedList.length === 0) return
         const tempList = unSelectedList.map(item => item)
         const tempList2 = selectedList.map(item => item)
-        const tempMap = tempList.splice(Math.floor(Math.random() * tempList.length), 1)[0]
+        let tempMap = {}
+        if (Object.keys(ManualMap).length !== 0) {
+            for (let i = 0; i < tempList.length; i++) {
+                if (tempList[i].code === ManualMap) {
+                    tempMap = tempList.splice(i, 1)[0]
+                }
+            }
+        } else {
+            tempMap = tempList.splice(Math.floor(Math.random() * tempList.length), 1)[0]
+        }
         tempList2.push(tempMap)
         setSelectedList(tempList2)
         setUnselectedList(tempList)
-        setCurrentMap(tempMap)
+        setCurrentMap('')
+        setManualMap('')
+        refresh(!fresh)
     }
 
     // 一键筛选
@@ -45,14 +64,22 @@ const ChooseMap = forwardRef((_props, ref) => {
         }
         setSelectedList(tempList2)
         setUnselectedList(tempList)
+        setCurrentMap('')
+        setManualMap('')
     }
 
     // 重置
     const reset = (cb?: () => void) => {
         setUnselectedList(originList.map(item => item))
         setSelectedList([])
-        setCurrentMap({})
+        setCurrentMap('')
         cb && cb()
+    }
+
+    // 手动选择地图
+    const selectedChange = (value: string) => {
+        setManualMap(value)
+        setCurrentMap(value)
     }
 
     const stepOption = (cb?: () => void, method: number = 1) => {
@@ -64,7 +91,7 @@ const ChooseMap = forwardRef((_props, ref) => {
 
     useEffect(() => {
         // reset()
-    }, [])
+    }, [fresh])
     //导入模块
     return (
         <>
@@ -73,7 +100,23 @@ const ChooseMap = forwardRef((_props, ref) => {
                     随机筛选地图
                 </h1>
                 <div className="choose_option">
-                    <Input size="large" className="map_show" disabled={true} value={currentMap.name} />
+                    {/* <Input size="large" className="map_show" disabled={true} value={currentMap.name} onChange={ } /> */}
+                    <Select
+                        value={currentMap}
+                        className="map_show"
+                        onChange={selectedChange}
+                        disabled={unSelectedList.length === 0}
+                    >
+                        {
+                            unSelectedList.map(item => {
+                                return (
+                                    <Option key={item.code} value={item.code} label={item.name} map={item}>
+                                        <span>{item.name}</span>
+                                    </Option>
+                                )
+                            })
+                        }
+                    </Select>
                     <Button className="button" onClick={chooseMapItem}>录入</Button>
                     <Button className="button button-show" type="primary" onClick={allChoose}>一键筛选</Button>
                 </div>

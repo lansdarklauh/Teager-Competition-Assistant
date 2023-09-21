@@ -43,13 +43,25 @@ const ImportMapLib = forwardRef((_props, ref) => {
             const mapList = reader.result !== null && typeof reader.result === 'string' ? reader.result.split('\r\n') : []
             if (mapList.length !== 0) {
                 setMapLib(mapList.map((item) => {
-                    return {
-                        name: item,
-                        difficulty: 0,
-                        type: '竞速',
-                        theme: '未知',
-                        code: nanoid()
+                    const arr = item.split('-')
+                    if (arr.length === 0 || arr.length === 1) {
+                        return {
+                            name: item,
+                            difficulty: 0,
+                            type: '竞速',
+                            theme: '未知',
+                            code: nanoid()
+                        }
+                    } else {
+                        return {
+                            name: arr[0] || '',
+                            difficulty: !isNaN(Number(arr[1])) ? Number(arr[1]) || 0 : 0,
+                            type: arr[2] || '竞速',
+                            theme: arr[3] || '未知',
+                            code: nanoid()
+                        }
                     }
+
                 }).filter(obj => obj.name !== ''))
             }
         }
