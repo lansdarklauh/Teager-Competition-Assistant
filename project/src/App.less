@@ -4,6 +4,7 @@
   .background {
     height: 100%;
     position: relative;
+    overflow: hidden;
     &::before{
       content: '';
       background: #e6fffb url('@/assets/background.png') no-repeat fixed; 
@@ -15,6 +16,7 @@
       right: 0;
       bottom: 0;
       z-index: -1;
+      user-select: none;
     }
   }
 }
@@ -28,6 +30,7 @@
     border-radius: 2.5rem;
     box-shadow: 0 0.2rem 1.2rem #00000088;
     background-color: #fff;
+    z-index: 12;
 }
 .rank_win{
   position: absolute;
@@ -36,3 +39,33 @@
   left: 50%;
   transform: translate(-50%,-50%);
 }
+
+.live2d {
+  position: absolute; 
+  bottom: 0; 
+  right: 0; 
+  z-index: 10
+}
+
+//入场动画
+.fade-enter,fade-appear {
+    transform: translateY(100%)
+}
+.fade-enter-active,fade-appear-active {
+    transform: translateY(0);
+    transition: all 1s ease;
+} 
+.fade-enter-done {
+    transform: translateY(0);
+}
+//出场动画
+// .fade-exit{
+//     opacity: 1;
+// }
+// .fade-exit-active{
+//     opacity: 0;
+//     transition: opacity 1s ease-in;
+// }
+// .fade-exit-done {
+//     opacity: 0;
+// }

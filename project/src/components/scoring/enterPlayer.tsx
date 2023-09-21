@@ -107,7 +107,7 @@ const EnterPlayer = forwardRef((_props, ref) => {
         const tempPlayer = {
             name: currentName || currentPlayer.name,
             score: currentPlayer.score,
-            color: reColor || currentPlayer.color,
+            color: typeof reColor === 'string' ? reColor : reColor.toHexString() || currentPlayer.color,
             code: currentPlayer.code
         }
         const tempList = players.map(item => {
