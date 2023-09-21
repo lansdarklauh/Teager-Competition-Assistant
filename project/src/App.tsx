@@ -123,7 +123,7 @@ function App() {
   }
 
   useEffect(() => {
-    live2dLoad()
+    // live2dLoad()
   }, [])
 
   //使用导航使用路由控制模块与流程
