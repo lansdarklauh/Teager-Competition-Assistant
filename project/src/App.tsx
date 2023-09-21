@@ -33,7 +33,7 @@ function App() {
       width: 400
     });
 
-    const model = await Live2DModel.from('src/assets/live2D/laohu.model3.json');
+    const model = await Live2DModel.from('live2D/laohu.model3.json');
 
     const canvasElement = document.getElementById('canvas')
 
