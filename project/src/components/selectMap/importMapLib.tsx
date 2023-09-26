@@ -187,6 +187,9 @@ const ImportMapLib = forwardRef((_props, ref) => {
                 <h1 className="title">
                     或选择地图库
                 </h1>
+                <p className="tip">
+                    请将地图库文件（txt格式）放入“我的文档/KartriderToolMapLib”
+                </p>
                 <Select
                     className="select"
                     onChange={handleChange}
