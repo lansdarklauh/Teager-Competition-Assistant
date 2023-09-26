@@ -1,6 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const fs = require('fs')
 
 function createWindow() {
     // Create the browser window.
@@ -26,6 +29,31 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+    ipcMain.handle('read-local-map-library', async () => {
+        const localPath = app.getPath('documents') + '/KartriderToolMapLib/'
+        if (!fs.existsSync(localPath)) {
+            fs.mkdirSync(localPath, { recursive: true })
+        }
+        const result = await new Promise((resolve) => {
+            fs.readdir(localPath, null, (err, files) => {
+                if (files) {
+                    const mapLibs = []
+                    files.forEach(item => {
+                        if (item.indexOf('txt') !== -1) {
+                            mapLibs.push({
+                                name: item.split('.')[0],
+                                context: fs.readFileSync(app.getPath('documents') + '/KartriderToolMapLib/' + item, { encoding: 'utf-8' })
+                            })
+                        }
+                    })
+                    resolve(mapLibs)
+                } else {
+                    resolve([])
+                }
+            })
+        })
+        return result
+    })
     createWindow()
 
     app.on('activate', function () {

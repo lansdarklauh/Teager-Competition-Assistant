@@ -18,6 +18,10 @@ export interface MapListItem {
     value: string,
     label: string
 }
+export interface LocalLib {
+    name: string,
+    context: string
+}
 
 // 计分相关：选手
 export interface Player {
