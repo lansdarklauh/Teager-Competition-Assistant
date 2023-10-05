@@ -11,7 +11,9 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
     contextBridge.exposeInMainWorld('electronAPI', {
-        readLocalMaps: () => ipcRenderer.invoke('read-local-map-library')
+        readLocalMaps: () => ipcRenderer.invoke('read-local-map-library'),
+        initGlobalKey: () => ipcRenderer.send('get-global-key'),
+        getEventChange: (callback) => ipcRenderer.on('get-event-change', callback)
     })
 
     const replaceText = (selector, text) => {

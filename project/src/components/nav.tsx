@@ -2,6 +2,7 @@ import { useState, useImperativeHandle, forwardRef } from 'react'
 import { NavRouter } from '@/interfaces'
 import {
     PictureOutlined, CalendarOutlined,
+    AppstoreOutlined
     // CarOutlined, TeamOutlined
 } from '@ant-design/icons';
 import { Link, useLocation } from "react-router-dom";
@@ -22,11 +23,11 @@ const Nav = forwardRef((_props, ref) => {
                 router: () => <CalendarOutlined />,
                 link: '/scoring'
             },
-            // {
-            //     name: '选车',
-            //     router: () => <CarOutlined />,
-            //     link: '/selectCar'
-            // },
+            {
+                name: '指法',
+                router: () => <AppstoreOutlined />,
+                link: '/keyShow'
+            },
             // {
             //     name: '分队',
             //     router: () => <TeamOutlined />,

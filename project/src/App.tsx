@@ -2,6 +2,7 @@ import Nav from './components/nav'
 import Home from "@/components/home";
 import SelectMap from "@/components/selectMap/index.tsx";
 import Scoring from "@/components/scoring/index";
+import KeyShow from "@/components/keyShow/index";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import './App.less'
@@ -136,6 +137,7 @@ function App() {
             <Route path='/' element={<Home changeShowLive2D={changeShowLive2D} />}></Route>
             <Route path='/selectMap' element={<SelectMap />}></Route>
             <Route path='/scoring' element={<Scoring />}></Route>
+            <Route path='/keyShow' element={<KeyShow />}></Route>
           </Routes>
         </div>
         <div className='rank_win' style={{ display: location.hash === '#/showRank' ? 'block' : 'none' }}>

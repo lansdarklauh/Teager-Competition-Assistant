@@ -4,10 +4,13 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const ioHook = require('iohook')
+
+let mainWindow = null
 
 function createWindow() {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         icon: "dist/logo_mini_ico.ico",
@@ -22,7 +25,7 @@ function createWindow() {
     mainWindow.setMenu(null)
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
@@ -53,6 +56,17 @@ app.whenReady().then(() => {
             })
         })
         return result
+    })
+    ipcMain.on('get-global-key', () => {
+        // ioHook.unload();
+        // ioHook.stop();
+        ioHook.on('keydown', (e) => {
+            mainWindow.webContents.send('get-event-change', { event: e, type: 'keydown' })
+        })
+        ioHook.on('keyup', (e) => {
+            mainWindow.webContents.send('get-event-change', { event: e, type: 'keyup' })
+        })
+        ioHook.start(false)
     })
     createWindow()
 
