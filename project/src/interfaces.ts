@@ -40,3 +40,14 @@ export interface refComponent {
 export interface refMethod {
     stepOption: (cb?: () => void, method?: number) => void,
 }
+
+export interface KeyList {
+    up: number,
+    down: number,
+    left: number,
+    right: number,
+    shift: number,
+    ctrl: number,
+    alt: number,
+    r: number
+}
