@@ -3,12 +3,12 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { InboxOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd'
+import { message, Upload, Select } from 'antd'
 import '@/style/selectMap/map.less'
 // import { Select } from 'antd';
 // import popkart_all from "/popkart_all.json?url";
 // import axios from "axios";
-import { MapItem } from '@/interfaces'
+import { MapItem, MapListItem, LocalLib } from '@/interfaces'
 import { useDispatch } from "react-redux";
 import { replaceLibAction } from "@/redux/selectMap/mapLib/mapLibAction";
 import { nanoid } from 'nanoid'
@@ -16,10 +16,7 @@ import { nanoid } from 'nanoid'
 const ImportMapLib = forwardRef((_props, ref) => {
     // 组件内参数与state
     const { Dragger } = Upload;
-    // const [mapList, setMapList] = useState<MapListItem[]>([{
-    //     value: 'bbbbbb',
-    //     label: 'aaaaaa'
-    // }])
+    const [mapLibLocal, setMapLibLocal] = useState<MapListItem[]>([])
     const [mapLib, setMapLib] = useState<MapItem[]>([])
 
     const dispatch = useDispatch<any>()
@@ -87,14 +84,17 @@ const ImportMapLib = forwardRef((_props, ref) => {
                 message.error(`${info.file.name} 上传失败.`);
             }
         },
-        onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
+        onDrop() {
+            // console.log('Dropped files', e.dataTransfer.files);
         },
+        onRemove() {
+            setMapLib([])
+        }
     };
 
-    // const handleChange = (value: string) => {
-    //     setMapLib(JSON.parse(value))
-    // };
+    const handleChange = (value: string) => {
+        setMapLib(JSON.parse(value))
+    };
 
     // const getDefaultMap = async (url: string) => {
     //     const res = await axios.get(url)
@@ -122,12 +122,51 @@ const ImportMapLib = forwardRef((_props, ref) => {
         }
     }
 
+    const getLocalMap = async () => {
+        const mapLibsArr = await (window as any).electronAPI.readLocalMaps()
+        // console.log(mapLibsArr)
+        const localLibs: MapListItem[] = []
+        mapLibsArr.forEach((lib: LocalLib) => {
+            const mapListTemp = lib.context !== null && typeof lib.context === 'string' ? lib.context.split('\r\n') : []
+            if (mapListTemp.length !== 0) {
+                localLibs.push({
+                    label: lib.name,
+                    value: JSON.stringify(
+                        mapListTemp.map((item: string) => {
+                            const arr = item.split('-')
+                            if (arr.length === 0 || arr.length === 1) {
+                                return {
+                                    name: item,
+                                    difficulty: 0,
+                                    type: '竞速',
+                                    theme: '未知',
+                                    code: nanoid()
+                                }
+                            } else {
+                                return {
+                                    name: arr[0] || '',
+                                    difficulty: !isNaN(Number(arr[1])) ? Number(arr[1]) || 0 : 0,
+                                    type: arr[2] || '竞速',
+                                    theme: arr[3] || '未知',
+                                    code: nanoid()
+                                }
+                            }
+
+                        }).filter(obj => obj.name !== '')
+                    )
+                })
+            }
+        })
+        // console.log(localLibs)
+        setMapLibLocal(localLibs)
+    }
+
     useImperativeHandle(ref, () => ({
         stepOption: stepOption
     }))
 
     useEffect(() => {
-        // getDefaultMap(popkart_all)
+        getLocalMap()
     }, [])
     //导入模块
     return (
@@ -145,14 +184,17 @@ const ImportMapLib = forwardRef((_props, ref) => {
                         只允许上传TXT格式文件，文件中放入所有地图名称，用逗号或回车隔开
                     </p>
                 </Dragger>
-                {/* <h1 className="title">
+                <h1 className="title">
                     或选择地图库
                 </h1>
+                <p className="tip">
+                    请将地图库文件（txt格式）放入“我的文档/KartriderToolMapLib”
+                </p>
                 <Select
                     className="select"
                     onChange={handleChange}
-                    options={mapList}
-                /> */}
+                    options={mapLibLocal}
+                />
 
             </div>
         </>

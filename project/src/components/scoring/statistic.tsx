@@ -118,7 +118,8 @@ const Statistic = forwardRef((_props, ref) => {
 
     // 显示排名窗口方便捕获
     const showRankHandle = () => {
-        window.open(location.origin + '/#/showRank', "_blank", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=800, height=400")
+        // 作为本地地址录入时需要用pathname+#/hash
+        window.open(location.pathname + '#/showRank', "_blank", "toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=800, height=400")
     }
 
     // 重置分数
