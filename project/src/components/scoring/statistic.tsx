@@ -49,6 +49,12 @@ const Statistic = forwardRef((_props, ref) => {
     // 储存数据到localStorage
     const storeLocal = (name: string, data: any) => {
         localStorage.setItem(name, data)
+        const obj = {
+            players: players,
+            rank: rank
+        }
+        // 本地存储该场比赛数据
+        localStorage.setItem('localDiving', JSON.stringify(obj))
     }
 
     // 渲染标签颜色

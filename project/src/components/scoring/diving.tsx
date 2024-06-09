@@ -3,16 +3,18 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/scoring/scoring.less'
 import { useDispatch } from "react-redux";
-import { InputNumber, Button } from 'antd';
+import { InputNumber, Button, Modal } from 'antd';
 import RankLi from "./rankLi";
-import { replaceRankAction } from "@/redux/scoring/mapLib/scoringAction";
+import { replacePlayerAction, replaceRankAction } from "@/redux/scoring/mapLib/scoringAction";
+const { confirm } = Modal;
 
-const Diving = forwardRef((_props, ref) => {
+const Diving = forwardRef((props: any, ref) => {
 
     // 阶段数
     const [stage, setStage] = useState(8)
     const [rankList, setRankList] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0])
     const [fresh, refresh] = useState(false)
+
 
     // 获取redux的dispatch
     const dispatch = useDispatch<any>()
@@ -65,6 +67,32 @@ const Diving = forwardRef((_props, ref) => {
             }
         }
     }
+
+    useEffect(() => {
+        // 读取本地存储比赛数据
+        const lastScoring = JSON.parse(localStorage.getItem('localDiving') || 'null')
+        if (lastScoring) {
+            confirm({
+                title: '本地缓存提醒',
+                content: '检测到本地保存上一场比赛的信息，是否继续使用该场比赛信息？',
+                okText: '继续使用',
+                cancelText: '清除并开始新的比赛',
+                onOk() {
+                    const { players, rank } = lastScoring
+                    if (players && rank) {
+                        dispatch(replaceRankAction(rank))
+                        dispatch(replacePlayerAction(players))
+                        props.setStep(3)
+                    } else {
+                        localStorage.removeItem('localDiving')
+                    }
+                },
+                onCancel() {
+                    localStorage.removeItem('localDiving')
+                },
+            });
+        }
+    }, [])
 
     useEffect(() => {
         // reset()

@@ -59,6 +59,9 @@ const Scoring: React.FC = () => {
                 break;
         }
     }
+    function setStepInChild(step: number) {
+        setStep(step)
+    }
 
     //选图模块
     return (
@@ -67,7 +70,7 @@ const Scoring: React.FC = () => {
                 {(() => {
                     switch (step) {
                         case 1:
-                            return <Diving ref={divingRef} />
+                            return <Diving ref={divingRef} setStep={(step: number) => { setStepInChild(step); }} />
                         case 2:
                             return <EnterPlayer ref={playerRef} />
                         case 3:
