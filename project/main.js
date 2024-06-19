@@ -13,12 +13,14 @@ function createWindow() {
         icon: "dist/logo_mini_ico.ico",
         title: "Kartrider Tool -- LansDarkLauh",
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
+            preload: path.join(__dirname, 'preload.js'),
+            nodeIntegration: true,
         }
     })
 
     // and load the index.html of the app.
-    mainWindow.loadFile('dist/index.html')
+    // mainWindow.loadFile('dist/index.html')
+    mainWindow.loadURL('http://localhost:5173')
     mainWindow.setMenu(null)
 
     // Open the DevTools.

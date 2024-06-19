@@ -4,11 +4,12 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/selectMap/map.less'
 import { Player } from '@/interfaces'
 import { useSelector } from "react-redux";
-import { Table, Button, Modal, Select, Tag, Tooltip, Popconfirm, Input } from 'antd';
+import { Table, Button, Modal, Select, Tag, Tooltip, Popconfirm, Input, message } from 'antd';
 import {
     OrderedListOutlined,
     RedoOutlined,
-    ArrowLeftOutlined
+    ArrowLeftOutlined,
+    CloudUploadOutlined
 } from '@ant-design/icons';
 import type { CustomTagProps } from 'rc-select/lib/BaseSelect';
 
@@ -16,6 +17,8 @@ const { Column } = Table;
 const { Option } = Select;
 
 const Statistic = forwardRef((_props, ref) => {
+
+    const [messageApi, contextHolder] = message.useMessage();
 
     // 组件内参数与state
     const [players, setPlayers] = useState<Player[]>(useSelector((state: { players: Player[] }) => state.players))
@@ -33,6 +36,11 @@ const Statistic = forwardRef((_props, ref) => {
     })
     const [openChange, setOpenChange] = useState(false)
     const [currentScore, setCurrentScore] = useState<number[]>([])
+
+    // 发送分数
+    const [uploading, setUploading] = useState(false)
+    const [url, setUrl] = useState('')
+    const [isUploading, setIsUploading] = useState(false)
 
 
     useImperativeHandle(ref, () => ({
@@ -182,6 +190,40 @@ const Statistic = forwardRef((_props, ref) => {
         refresh(!fresh)
     }
 
+    const confirmSend = () => {
+        if (url === '') {
+            messageApi.info('请输入地址');
+            return
+        } else {
+            setIsUploading(true)
+            const obj = {
+                players: players,
+                rank: rank
+            }
+            try {
+                fetch(url + '/api/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(obj)
+                }).then(res => {
+                    if (res.ok) {
+                        messageApi.success('上传成功');
+                        setUploading(false)
+                        setIsUploading(false)
+                    }
+                }).catch(err => {
+                    console.log(err)
+                    messageApi.error('上传失败，请检查网络连接');
+                })
+            } catch (e) {
+                messageApi.error('上传失败，请检查网络连接');
+                setIsUploading(false)
+            }
+        }
+    }
+
 
     useEffect(() => {
         // reset()
@@ -194,6 +236,7 @@ const Statistic = forwardRef((_props, ref) => {
     //导入模块
     return (
         <>
+            {contextHolder}
             <div className='main'>
                 <h1 className="title">
                     选手计分排名
@@ -224,6 +267,11 @@ const Statistic = forwardRef((_props, ref) => {
                             <Button className="rank_list" type="link" icon={<RedoOutlined />} />
                         </Tooltip>
                     </Popconfirm>
+                    <Tooltip title="发送排名">
+                        <Button className="rank_list" type="link" icon={<CloudUploadOutlined />} onClick={() => {
+                            setUploading(true)
+                        }} />
+                    </Tooltip>
                 </h1>
                 <div className="enter_num">
                     <Table rowKey="code" dataSource={players} pagination={false} scroll={{ y: 240 }} >
@@ -322,6 +370,27 @@ const Statistic = forwardRef((_props, ref) => {
                     maskClosable={false}
                 >
                     <Input size="large" className="diving-num" defaultValue={currentScore.join(',')} onChange={inputScoreChanged} />
+                </Modal>
+                <Modal
+                    open={uploading}
+                    title="请输入地址(如：http://localhost:3000，该地址从OB获得)"
+                    centered
+                    onOk={confirmSend}
+                    onCancel={() => {
+                        setUploading(false)
+                    }}
+                    footer={[
+                        <Button className='button' key="back" onClick={() => { setUploading(false) }}>
+                            取消
+                        </Button>,
+                        <Button className='button button-generate' key="submit" type="primary" onClick={confirmSend} loading={isUploading}>
+                            确定
+                        </Button>,
+                    ]}
+                    destroyOnClose={true}
+                    maskClosable={false}
+                >
+                    <Input size="large" className="diving-num" defaultValue={url} onChange={(e) => { setUrl(e.target.value) }} />
                 </Modal>
             </div>
         </>
