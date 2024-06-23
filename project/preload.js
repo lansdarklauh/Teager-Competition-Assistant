@@ -11,7 +11,9 @@ const { contextBridge, ipcRenderer } = require('electron')
 
 window.addEventListener('DOMContentLoaded', () => {
     contextBridge.exposeInMainWorld('electronAPI', {
-        readLocalMaps: () => ipcRenderer.invoke('read-local-map-library')
+        readLocalMaps: () => ipcRenderer.invoke('read-local-map-library'),
+        rankServer: () => ipcRenderer.invoke('rank-server'),
+        getRank: (callback) => ipcRenderer.on('get-rank', (_event, value) => callback(value))
     })
 
     const replaceText = (selector, text) => {

@@ -6,6 +6,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import './App.less'
 import ShowRank from './components/scoring/showRank';
+import ShowRankOnline from './components/scoring/showRankOnline';
 import * as PIXI from 'pixi.js';
 import {
   Live2DModel
@@ -116,11 +117,20 @@ function App() {
   const navRef = useRef(null)
 
   const [live2D, setLive2D] = useState(false)
+  const [showRank, setShowRank] = useState(location.hash === '#/showRank' || location.hash === '#/showRankOnline')
 
   const changeShowLive2D = () => {
     const flag = live2D ? false : true
     setLive2D(flag)
   }
+
+  window.jumpToShowRank = () => {
+    if (location.hash === '#/showRank' || location.hash === '#/showRankOnline') {
+      setShowRank(true)
+    }
+  }
+
+
 
   useEffect(() => {
     live2dLoad()
@@ -131,20 +141,21 @@ function App() {
     <HashRouter>
       <div className='background'>
         <Nav ref={navRef} />
-        <div className='content-main' style={{ display: location.hash !== '#/showRank' ? 'block' : 'none' }}>
+        <div className='content-main' style={{ display: !showRank ? 'block' : 'none' }}>
           <Routes>
             <Route path='/' element={<Home changeShowLive2D={changeShowLive2D} />}></Route>
             <Route path='/selectMap' element={<SelectMap />}></Route>
             <Route path='/scoring' element={<Scoring />}></Route>
           </Routes>
         </div>
-        <div className='rank_win' style={{ display: location.hash === '#/showRank' ? 'block' : 'none' }}>
+        <div className='rank_win' style={{ display: !showRank ? 'none' : 'block' }}>
           <Routes>
             <Route path='/showRank' element={<ShowRank />} />
+            <Route path='/showRankOnline' element={<ShowRankOnline />} />
           </Routes>
         </div>
         <CSSTransition in={live2D} timeout={1000} classNames='fade' apper={'true'}>
-          <canvas id='canvas' className='live2d' style={{ visibility: live2D && (location.hash !== '#/showRank') ? 'visible' : 'hidden' }}></canvas>
+          <canvas id='canvas' className='live2d' style={{ visibility: live2D && (!showRank) ? 'visible' : 'hidden' }}></canvas>
         </CSSTransition>
       </div>
     </HashRouter >

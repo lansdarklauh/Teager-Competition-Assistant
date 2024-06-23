@@ -190,23 +190,25 @@ const Statistic = forwardRef((_props, ref) => {
         refresh(!fresh)
     }
 
+    // 发送分数到OB
     const confirmSend = () => {
         if (url === '') {
             messageApi.info('请输入地址');
             return
         } else {
             setIsUploading(true)
-            const obj = {
-                players: players,
-                rank: rank
-            }
+            const temp: any = {}
+            players.forEach(item => {
+                temp[item.name] = getTotal(item.score) + '?' + item.color
+            })
             try {
-                fetch(url + '/api/upload', {
+                fetch(url + '/getRank', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(obj)
+                    body: JSON.stringify(temp),
+                    mode: 'cors',
                 }).then(res => {
                     if (res.ok) {
                         messageApi.success('上传成功');
@@ -216,6 +218,7 @@ const Statistic = forwardRef((_props, ref) => {
                 }).catch(err => {
                     console.log(err)
                     messageApi.error('上传失败，请检查网络连接');
+                    setIsUploading(false)
                 })
             } catch (e) {
                 messageApi.error('上传失败，请检查网络连接');

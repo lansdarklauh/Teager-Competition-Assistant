@@ -4,10 +4,15 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const createServer = require('./server')
+
+let serverInstance = null
+
+let mainWindow = null
 
 function createWindow() {
     // Create the browser window.
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         icon: "dist/logo_mini_ico.ico",
@@ -24,13 +29,15 @@ function createWindow() {
     mainWindow.setMenu(null)
 
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
+    // 获取本地地图
     ipcMain.handle('read-local-map-library', async () => {
         const localPath = app.getPath('documents') + '/KartriderToolMapLib/'
         if (!fs.existsSync(localPath)) {
@@ -56,6 +63,30 @@ app.whenReady().then(() => {
         })
         return result
     })
+
+    // 打开服务器
+    ipcMain.handle('rank-server', async () => {
+        const flag = await new Promise((resolve) => {
+            const koaApp = createServer()
+            if (!serverInstance) {
+                koaApp.responseCallback = (data) => {
+                    mainWindow.webContents.send('get-rank', data)
+                }
+                serverInstance = koaApp.listen(9527, () => {
+                    console.log('Server started on port 9527')
+                    resolve('true')
+                })
+            } else {
+                serverInstance.close(() => {
+                    console.log('Server stop on port 9527')
+                    serverInstance = null
+                    resolve('false')
+                })
+            }
+        })
+        return flag
+    })
+
     createWindow()
 
     app.on('activate', function () {
@@ -69,6 +100,12 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
+    if (serverInstance) {
+        serverInstance.close(() => {
+            console.log('Server started on port 9527')
+            serverInstance = null
+        })
+    }
     app.quit()
 })
 

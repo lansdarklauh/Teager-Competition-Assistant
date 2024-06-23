@@ -3,12 +3,16 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import '@/style/scoring/scoring.less'
 import { useDispatch } from "react-redux";
-import { InputNumber, Button, Modal } from 'antd';
+import { InputNumber, Button, Modal, Tooltip } from 'antd';
 import RankLi from "./rankLi";
 import { replacePlayerAction, replaceRankAction } from "@/redux/scoring/mapLib/scoringAction";
+import { OrderedListOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 const { confirm } = Modal;
 
 const Diving = forwardRef((props: any, ref) => {
+
+    const navigate = useNavigate()
 
     // 阶段数
     const [stage, setStage] = useState(8)
@@ -94,6 +98,11 @@ const Diving = forwardRef((props: any, ref) => {
         }
     }, [])
 
+    // 显示远程排名模块
+    const showRankOnline = () => {
+        navigate('/showRankOnline', { replace: true })
+    }
+
     useEffect(() => {
         // reset()
     }, [fresh])
@@ -104,6 +113,9 @@ const Diving = forwardRef((props: any, ref) => {
             <div className='main'>
                 <h1 className="title">
                     请输入各阶段分数
+                    <Tooltip title="联机自动获取排名">
+                        <Button className="rank_list" type="link" icon={<OrderedListOutlined />} onClick={showRankOnline} />
+                    </Tooltip>
                 </h1>
                 <div className="diving_option">
                     <span className="diving_title">阶段个数：</span>
