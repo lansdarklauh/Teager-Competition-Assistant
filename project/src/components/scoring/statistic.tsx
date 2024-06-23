@@ -42,6 +42,9 @@ const Statistic = forwardRef((_props, ref) => {
     const [url, setUrl] = useState('')
     const [isUploading, setIsUploading] = useState(false)
 
+    let urlOrigin = ''
+    let socket: any = null
+
 
     useImperativeHandle(ref, () => ({
         stepOption: stepOption
@@ -202,25 +205,53 @@ const Statistic = forwardRef((_props, ref) => {
                 temp[item.name] = getTotal(item.score) + '?' + item.color
             })
             try {
-                fetch(url + '/getRank', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(temp),
-                    mode: 'cors',
-                }).then(res => {
-                    if (res.ok) {
+                if (urlOrigin === '' || urlOrigin !== url) {
+                    urlOrigin = url
+                    socket = new WebSocket('ws://' + url + '/getRank')
+                    socket.onopen = () => {
+                        socket.send(JSON.stringify(temp))
                         messageApi.success('上传成功');
                         setUploading(false)
                         setIsUploading(false)
                     }
-                }).catch(err => {
-                    console.log(err)
-                    messageApi.error('上传失败，请检查网络连接');
-                    setIsUploading(false)
-                })
+                    socket.onmessage = (event: any) => {
+                        console.log(event.data)
+                    }
+                    socket.onerror = (event: any) => {
+                        console.log(event)
+                        messageApi.error('上传失败，请检查网络连接');
+                        setIsUploading(false)
+                    }
+                    socket.onclose = (event: any) => {
+                        console.log(event)
+                        messageApi.error('上传失败，请检查网络连接');
+                        setIsUploading(false)
+                    }
+                }
+                else {
+                    socket.send(JSON.stringify(temp))
+                }
+                // fetch(url + '/getRank', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(temp),
+                //     mode: 'cors',
+                // }).then(res => {
+                //     if (res.ok) {
+                //         messageApi.success('上传成功');
+                //         setUploading(false)
+                //         setIsUploading(false)
+                //     }
+                // }).catch(err => {
+                //     console.log(err)
+                //     messageApi.error('上传失败，请检查网络连接');
+                //     setIsUploading(false)
+                // })
+
             } catch (e) {
+                console.log(e)
                 messageApi.error('上传失败，请检查网络连接');
                 setIsUploading(false)
             }
@@ -376,7 +407,7 @@ const Statistic = forwardRef((_props, ref) => {
                 </Modal>
                 <Modal
                     open={uploading}
-                    title="请输入地址(如：http://localhost:3000，该地址从OB获得)"
+                    title="请输入地址(如：localhost:3000，该地址从OB获得)"
                     centered
                     onOk={confirmSend}
                     onCancel={() => {
