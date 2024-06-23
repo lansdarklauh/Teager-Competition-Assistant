@@ -103,7 +103,7 @@ const ShowRankOnline: React.FC = () => {
                 <Button key="submit" type="primary" onClick={startServer} style={{ marginLeft: '10px' }}>{server ? '关闭服务器' : '开启服务器'}</Button>
             </div >
             <div style={{ marginTop: '20px' }}>
-                <span style={{ fontSize: '24px', fontWeight: 600, color: '#36CFC9', marginBottom: '10px' }}>注意：服务器开启时默认运行在9527端口，而且出于安全考虑不会给出公网ip，所以需要配合内网穿透软件使用（如樱花frp）</span>
+                <span style={{ fontSize: '24px', fontWeight: 600, color: '#36CFC9', marginBottom: '10px' }}>注意：服务器开启时默认运行在9527端口，而且出于安全考虑不会给出公网ip，所以需要配合内网穿透软件使用（推荐用Cpolar）</span>
             </div>
         </>
     )
