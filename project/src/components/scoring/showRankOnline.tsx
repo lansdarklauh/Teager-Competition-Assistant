@@ -14,7 +14,7 @@ const ShowRankOnline: React.FC = () => {
     const [waiting, setWaiting] = useState(false)
 
     const startServer = async () => {
-        setWaiting(false)
+        setWaiting(true)
         const flag = await (window as any).electronAPI.rankServer()
         setServer(flag === 'true')
         messageApi.success('服务器状态：' + (flag === 'true' ? '开启' : '关闭'))

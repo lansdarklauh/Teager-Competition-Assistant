@@ -42,7 +42,6 @@ const Statistic = forwardRef((_props, ref) => {
     const [url, setUrl] = useState('')
     const [isUploading, setIsUploading] = useState(false)
 
-    let urlOrigin = ''
     let socket: any = null
 
 
@@ -205,31 +204,25 @@ const Statistic = forwardRef((_props, ref) => {
                 temp[item.name] = getTotal(item.score) + '?' + item.color
             })
             try {
-                if (urlOrigin === '' || urlOrigin !== url) {
-                    urlOrigin = url
-                    socket = new WebSocket('ws://' + url + '/getRank')
-                    socket.onopen = () => {
-                        socket.send(JSON.stringify(temp))
-                        messageApi.success('上传成功');
-                        setUploading(false)
-                        setIsUploading(false)
-                    }
-                    socket.onmessage = (event: any) => {
-                        console.log(event.data)
-                    }
-                    socket.onerror = (event: any) => {
-                        console.log(event)
-                        messageApi.error('上传失败，请检查网络连接');
-                        setIsUploading(false)
-                    }
-                    socket.onclose = (event: any) => {
-                        console.log(event)
-                        messageApi.error('上传失败，请检查网络连接');
-                        setIsUploading(false)
-                    }
-                }
-                else {
+                socket = new WebSocket('ws://' + url + '/getRank')
+                socket.onopen = () => {
                     socket.send(JSON.stringify(temp))
+                    messageApi.success('上传成功');
+                    setUploading(false)
+                    setIsUploading(false)
+                    socket && socket.close()
+                }
+                socket.onmessage = (event: any) => {
+                    console.log(event.data)
+                }
+                socket.onerror = (event: any) => {
+                    console.log(event)
+                    messageApi.error('上传失败，请检查网络连接');
+                    setIsUploading(false)
+                }
+                socket.onclose = (event: any) => {
+                    console.log(event)
+                    setIsUploading(false)
                 }
                 // fetch(url + '/getRank', {
                 //     method: 'POST',
